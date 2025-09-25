@@ -8,13 +8,23 @@ systems in the VR laboratory. It will disable the X3D
 navigation to allow for viewpoint calibration and tracking,
 and load libraries commonly used in the VR laboratory.
 
-testar git
 -->
 <Group> 
-   
+
+  
   <PythonScript url="urn:candy:python/CorrectViewpoint.py"/>
   <PythonScript url="urn:candy:python/AutoLoadSO.py"/>
-   
+
+  <!-- Part 2 view setup — use one at a time; works in VR lab -->
+
+  <!-- Untracked STEREO (stereopsis without tracking) -->
+  <Inline url="urn:candy:x3d/view-untracked-stereo.x3d"/> 
+
+  <!-- Untracked MONO (baseline)(bra för att testa skugg-effekten på vanlig skärm) -->
+   <!--<Inline url="urn:candy:x3d/view-untracked-mono.x3d"/> -->
+
+  <!-- <Inline url="urn:candy:x3d/view-head-tracked-stereo.x3d"/> -->
+  <!-- <Inline url="urn:candy:x3d/view-head-tracked-mono.x3d"/> -->
    
   <!-- Put your code here  -->
 
@@ -27,6 +37,8 @@ testar git
              orientation="0 1 0 0.5" />  fieldOfView="2"-->
 
              <!-- Off-axis viewpoint -->
+
+<!--
 <SMViewpoint description="Off-axis front"
              position="0 0 2.0"
              screenLowerLeft="-0.305 -0.175 0"
@@ -38,20 +50,62 @@ testar git
              screenLowerLeft="-0.305 -0.175 0"
              screenUpperRight="0.305 0.175 0"
              screenUp="0 1 0"/>
+-->
 
   <!--<Transform translation="0 0.1 0">  Om vi vill flytta stolen bakåt i bild, men ej nödvändigt för tasks-->
 
+  <!--PART 2- SHADOWS: adding a point light source-->
+  <!--Turn off camera headlight so point light dominates (optional)-->
+  <NavigationInfo type='"EXAMINE" "ANY"' headlight="false"/>
 
+  <!-- Task 7: Point light above and slightly in front -->
+  <Transform translation="-0.3 0.9 0.9">
+    <PointLight color="1 1 1" intensity="1.2" radius="10" attenuation="1 0.15 0.02"/>
+  </Transform>
+ 
+  <!-- Ground receiver - Task 7-->
+  <Transform translation="0 -0.35 0">
+    <Shape>
+      <Appearance>
+      <Material diffuseColor="0.6 0.6 0.6"/>
+       <!-- Task 8 (texture):  2x2 checker packed as 4 integers -->
+      <PixelTexture DEF="CheckerTex" repeatS="true" repeatT="true"
+                    image="2 2 3 5921375 4605515 4605515 5921375"/>
+      <TextureTransform scale="20 20"/>
+      </Appearance>
+      <Box size="3 0.02 3"/>
+    </Shape>
+  </Transform>
 
+  <!-- Back wall receiver - Task 7-->
+  <Transform translation="0 0 -1.0">
+    <Shape>
+      <Appearance>
+      <Material diffuseColor="0.55 0.55 0.6"/>
+      <PixelTexture USE="CheckerTex"/>
+      <!-- Task 8 (texture): fewer tiles on the wall so pattern isn’t too fine -->
+      <TextureTransform scale="12 12"/>
+      </Appearance>
+      <Box size="3 2 0.02"/>
+    </Shape>
+  </Transform>
+
+  <!-- Test caster (sphere) to make the shadow shape obvious -->
+  <Transform translation="0.15 0.05 0.0">
+    <Shape>
+      <Appearance shadow="true"><Material diffuseColor="0.9 0.2 0.2"/></Appearance>
+      <Sphere radius="0.05"/>
+    </Shape>
+  </Transform>
 
 
   <MatrixTransform DEF="Chair"> <!-- Gemensamm Transform så vi kan manipulera stolen-->
 
   <Transform scale="0.2 0.2 0.2">
-    <!-- Seat -->
+    <!-- Seat : Shadow true to make each part of the chair cast shadow-->
     <Transform translation="0 0 0">
       <Shape>
-        <Appearance><Material diffuseColor="0.8 1.0 0.3"/></Appearance>
+        <Appearance shadow="true"><Material diffuseColor="0.8 1.0 0.3"/></Appearance>
         <Box size="0.5 0.05 0.5"/>
       </Shape>
     </Transform>
@@ -59,7 +113,7 @@ testar git
     <!-- Backrest -->
     <Transform translation="0 0.27 -0.23">
       <Shape>
-        <Appearance><Material diffuseColor="0.8 0.9 0.3"/></Appearance>
+        <Appearance shadow="true"><Material diffuseColor="0.8 0.9 0.3"/></Appearance>
         <Box size="0.5 0.5 0.05"/>
       </Shape>
     </Transform>
@@ -67,7 +121,7 @@ testar git
     <!-- Leg 1 (defines the geometry here, so it also renders here) -->
     <Transform translation=" 0.2 -0.25  0.2">
       <Shape DEF="LegShape">
-        <Appearance><Material diffuseColor="0.4 0.3 0.2"/></Appearance>
+        <Appearance shadow="true"><Material diffuseColor="0.4 0.3 0.2"/></Appearance>
         <Box size="0.05 0.5 0.05"/>
       </Shape>
     </Transform>
