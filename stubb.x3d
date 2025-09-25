@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Copyright 2013, 2017, Karljohan Lundin Palmerius
+
+This is a stubb for laborations on multi-modal display
+systems in the VR laboratory. It will disable the X3D
+navigation to allow for viewpoint calibration and tracking,
+and load libraries commonly used in the VR laboratory.
+
+-->
+<Group> 
+   
+  <PythonScript url="urn:candy:python/CorrectViewpoint.py"/>
+  <PythonScript url="urn:candy:python/AutoLoadSO.py"/>
+   
+   
+  <!-- Put your code here  -->
+
+ <!-- Viewpoints 
+  <Viewpoint description="From the front"
+             position="0 0 0.6"
+             orientation="0 1 0 0"/>
+  <Viewpoint description="Acute angle"
+             position="0.3 0.2 0.6"
+             orientation="0 1 0 0.5" />  fieldOfView="2"-->
+
+             <!-- Off-axis viewpoint -->
+<SMViewpoint description="Off-axis front"
+             position="0 0 2.0"
+             screenLowerLeft="-0.305 -0.175 0"
+             screenUpperRight="0.305 0.175 0"
+             screenUp="0 1 0"/>
+
+<SMViewpoint description="Off-axis acute"
+             position="2.0 0.2 0.6"
+             screenLowerLeft="-0.305 -0.175 0"
+             screenUpperRight="0.305 0.175 0"
+             screenUp="0 1 0"/>
+
+  <!--<Transform translation="0 0.1 0">  Om vi vill flytta stolen bakåt i bild, men ej nödvändigt för tasks-->
+
+
+
+
+
+  <MatrixTransform DEF="Chair"> <!-- Gemensamm Transform så vi kan manipulera stolen-->
+
+  <Transform scale="0.2 0.2 0.2">
+    <!-- Seat -->
+    <Transform translation="0 0 0">
+      <Shape>
+        <Appearance><Material diffuseColor="0.8 1.0 0.3"/></Appearance>
+        <Box size="0.5 0.05 0.5"/>
+      </Shape>
+    </Transform>
+
+    <!-- Backrest -->
+    <Transform translation="0 0.27 -0.23">
+      <Shape>
+        <Appearance><Material diffuseColor="0.8 0.9 0.3"/></Appearance>
+        <Box size="0.5 0.5 0.05"/>
+      </Shape>
+    </Transform>
+
+    <!-- Leg 1 (defines the geometry here, so it also renders here) -->
+    <Transform translation=" 0.2 -0.25  0.2">
+      <Shape DEF="LegShape">
+        <Appearance><Material diffuseColor="0.4 0.3 0.2"/></Appearance>
+        <Box size="0.05 0.5 0.05"/>
+      </Shape>
+    </Transform>
+
+    <!-- Legs 2–4 reuse the geometry -->
+    <Transform translation="-0.2 -0.25  0.2"><Shape USE="LegShape"/></Transform>
+    <Transform translation=" 0.2 -0.25 -0.2"><Shape USE="LegShape"/></Transform>
+    <Transform translation="-0.2 -0.25 -0.2"><Shape USE="LegShape"/></Transform>
+
+</Transform>
+  </MatrixTransform>
+
+<!-- Navigation -->
+
+<IMPORT inlineDEF="H3D_EXPORTS" exportedDEF="HDEV" AS="HDEV"/>
+
+<PythonScript DEF="MT" url="urn:candy:python/ManualTranslation.py">
+      <Transform USE="Chair" containerField="references"/>
+    </PythonScript>
+
+    <PythonScript DEF="MR" url="urn:candy:python/ManualRotation.py">
+      <Transform USE="Chair" containerField="references"/>
+    </PythonScript>
+
+<ROUTE fromNode="HDEV" fromField="mainButton"
+         toNode="MT" toField="button"/>
+  <ROUTE fromNode="HDEV" fromField="trackerPosition"
+         toNode="MT" toField="position"/>
+  
+  <ROUTE fromNode="HDEV" fromField="mainButton"
+         toNode="MZ" toField="button"/>
+  <ROUTE fromNode="HDEV" fromField="trackerPosition"
+         toNode="MZ" toField="position"/>
+  <ROUTE fromNode="HDEV" fromField="trackerOrientation"
+         toNode="MZ" toField="orientation"/>
+  
+  <ROUTE fromNode="HDEV" fromField="mainButton"
+         toNode="MR" toField="button"/>
+  <ROUTE fromNode="HDEV" fromField="trackerPosition"
+         toNode="MR" toField="position"/>
+  <ROUTE fromNode="HDEV" fromField="trackerOrientation"
+         toNode="MR" toField="orientation"/>
+
+</Group>
