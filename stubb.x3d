@@ -8,6 +8,7 @@ systems in the VR laboratory. It will disable the X3D
 navigation to allow for viewpoint calibration and tracking,
 and load libraries commonly used in the VR laboratory.
 
+testar git
 -->
 <Group> 
    
