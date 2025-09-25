@@ -14,19 +14,19 @@ and load libraries commonly used in the VR laboratory.
   
   <PythonScript url="urn:candy:python/CorrectViewpoint.py"/>
   <PythonScript url="urn:candy:python/AutoLoadSO.py"/>
-
+<!-- ......................................................................-->
   <!-- Part 2 view setup — use one at a time; works in VR lab -->
 
   <!-- Untracked STEREO (stereopsis without tracking) -->
-  <Inline url="urn:candy:x3d/view-untracked-stereo.x3d"/> 
+  <!--<Inline url="urn:candy:x3d/view-untracked-stereo.x3d"/> -->
 
   <!-- Untracked MONO (baseline)(bra för att testa skugg-effekten på vanlig skärm) -->
-   <!--<Inline url="urn:candy:x3d/view-untracked-mono.x3d"/> -->
+   Inline url="urn:candy:x3d/view-untracked-mono.x3d"
 
   <!-- <Inline url="urn:candy:x3d/view-head-tracked-stereo.x3d"/> -->
   <!-- <Inline url="urn:candy:x3d/view-head-tracked-mono.x3d"/> -->
    
-  <!-- Put your code here  -->
+  <!-- ........................................................................-->
 
  <!-- Viewpoints 
   <Viewpoint description="From the front"
@@ -51,6 +51,8 @@ and load libraries commonly used in the VR laboratory.
              screenUpperRight="0.305 0.175 0"
              screenUp="0 1 0"/>
 -->
+
+<!-- ..............................................................................-->
 
   <!--<Transform translation="0 0.1 0">  Om vi vill flytta stolen bakåt i bild, men ej nödvändigt för tasks-->
 
