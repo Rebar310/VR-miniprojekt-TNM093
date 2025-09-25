@@ -3,11 +3,11 @@
 
 <img width="1912" height="988" alt="image" src="https://github.com/user-attachments/assets/81e9767a-5a85-4cb7-84cb-c81db7a124d4" />
 
-### **Task 9**
+## **Task 9**
 
 För **motion parallax** behöver du i praktiken bara låta **kameran röra sig när du rör huvudet**. Det får du i VR-labbet genom att byta till en **head-tracked** vy. Texturerna du redan lagt (checker på golv/vägg) ger bra kontraster så parallaxen blir tydlig.
 
-## Gör så här (minsta ändring i din fil)
+### Gör så här (minsta ändring i din fil)
 
 1. **Byt vy till head-tracked + mono** (stereo AV—uppgiften vill jämföra med stereon avstängd):
 
