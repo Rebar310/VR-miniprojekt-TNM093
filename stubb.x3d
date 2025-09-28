@@ -21,7 +21,9 @@ and load libraries commonly used in the VR laboratory.
   <!--<Inline url="urn:candy:x3d/view-untracked-stereo.x3d"/> -->
 
   <!-- Untracked MONO (baseline)(bra för att testa skugg-effekten på vanlig skärm) -->
-   Inline url="urn:candy:x3d/view-untracked-mono.x3d"
+  <!-- (FIX: din rad saknade '<'; jag lämnar din originalrad kvar men kommenterar den) -->
+  <!--  Inline url="urn:candy:x3d/view-untracked-mono.x3d" -->
+  <Inline url="urn:candy:x3d/view-untracked-mono.x3d"/>
 
   <!-- <Inline url="urn:candy:x3d/view-head-tracked-stereo.x3d"/> -->
   <!-- <Inline url="urn:candy:x3d/view-head-tracked-mono.x3d"/> -->
@@ -148,6 +150,11 @@ and load libraries commonly used in the VR laboratory.
       <Transform USE="Chair" containerField="references"/>
     </PythonScript>
 
+<!-- ===== ADDED: MZ (du har redan ROUTEs till MZ) ===== -->
+<PythonScript DEF="MZ" url="urn:candy:python/ManualZoom.py">
+      <Transform USE="Chair" containerField="references"/>
+</PythonScript>
+
 <ROUTE fromNode="HDEV" fromField="mainButton"
          toNode="MT" toField="button"/>
   <ROUTE fromNode="HDEV" fromField="trackerPosition"
@@ -166,5 +173,6 @@ and load libraries commonly used in the VR laboratory.
          toNode="MR" toField="position"/>
   <ROUTE fromNode="HDEV" fromField="trackerOrientation"
          toNode="MR" toField="orientation"/>
+
 
 </Group>
