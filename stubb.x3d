@@ -1,99 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-
-Copyright 2013, 2017, Karljohan Lundin Palmerius
-
-This is a stubb for laborations on multi-modal display
-systems in the VR laboratory. It will disable the X3D
-navigation to allow for viewpoint calibration and tracking,
-and load libraries commonly used in the VR laboratory.
-
+  TNM093 – VR lab stub (förenklad layout, samma funktion)
+  - Task 7–8: skuggor, textur (oförändrat)
+  - Task 11: spatialiserat ljud via touch (oförändrat beteende)
+  - Task 12: riktningstester (autostart)
+  - Task 13: environment/reverb-presets (autostart)
 -->
-<Group> 
 
-  
+<Group>
+
+  <!-- ========== Common setup ========== -->
   <PythonScript url="urn:candy:python/CorrectViewpoint.py"/>
   <PythonScript url="urn:candy:python/AutoLoadSO.py"/>
-<!-- ......................................................................-->
-  <!-- Part 2 view setup — use one at a time; works in VR lab -->
 
-  <!-- Untracked STEREO (stereopsis without tracking) -->
-  <!--<Inline url="urn:candy:x3d/view-untracked-stereo.x3d"/> -->
-
-  <!-- Untracked MONO (baseline)(bra för att testa skugg-effekten på vanlig skärm) -->
-  <!--  Inline url="urn:candy:x3d/view-untracked-mono.x3d" -->
+  <!-- View setup (en åt gången – varning i Windows är normal) -->
+  <!--  <Inline url="urn:candy:x3d/view-untracked-stereo.x3d"/> -->
   <Inline url="urn:candy:x3d/view-untracked-mono.x3d"/>
+  <!--  <Inline url="urn:candy:x3d/view-head-tracked-stereo.x3d"/> -->
+  <!--  <Inline url="urn:candy:x3d/view-head-tracked-mono.x3d"/> -->
 
-  <!-- <Inline url="urn:candy:x3d/view-head-tracked-stereo.x3d"/> -->
-  <!-- <Inline url="urn:candy:x3d/view-head-tracked-mono.x3d"/> -->
-   
-  <!-- ........................................................................-->
-
- <!-- Viewpoints 
-  <Viewpoint description="From the front"
-             position="0 0 0.6"
-             orientation="0 1 0 0"/>
-  <Viewpoint description="Acute angle"
-             position="0.3 0.2 0.6"
-             orientation="0 1 0 0.5" />  fieldOfView="2"-->
-
-             <!-- Off-axis viewpoint -->
-
-<!--
-<SMViewpoint description="Off-axis front"
-             position="0 0 2.0"
-             screenLowerLeft="-0.305 -0.175 0"
-             screenUpperRight="0.305 0.175 0"
-             screenUp="0 1 0"/>
-
-<SMViewpoint description="Off-axis acute"
-             position="2.0 0.2 0.6"
-             screenLowerLeft="-0.305 -0.175 0"
-             screenUpperRight="0.305 0.175 0"
-             screenUp="0 1 0"/>
--->
-
-<!-- ..............................................................................-->
-
-  <!--<Transform translation="0 0.1 0">  Om vi vill flytta stolen bakåt i bild, men ej nödvändigt för tasks-->
-
-  <!--PART 2- SHADOWS: adding a point light source-->
-  <!--Turn off camera headlight so point light dominates (optional)-->
+  <!-- Navigation/headlight -->
   <NavigationInfo type='"EXAMINE" "ANY"' headlight="false"/>
 
-  <!-- Task 7: Point light above and slightly in front -->
+  <!-- Ljus -->
   <Transform translation="-0.3 0.9 0.9">
     <PointLight color="1 1 1" intensity="1.2" radius="10" attenuation="1 0.15 0.02"/>
   </Transform>
- 
-  <!-- Ground receiver - Task 7-->
+
+  <!-- Mark (Task 7–8) -->
   <Transform translation="0 -0.35 0">
     <Shape>
       <Appearance>
-      <Material diffuseColor="0.6 0.6 0.6"/>
-       <!-- Task 8 (texture):  2x2 checker packed as 4 integers -->
-      <PixelTexture DEF="CheckerTex" repeatS="true" repeatT="true"
-                    image="2 2 3 5921375 4605515 4605515 5921375"/>
-      <TextureTransform scale="20 20"/>
+        <Material diffuseColor="0.6 0.6 0.6"/>
+        <PixelTexture DEF="CheckerTex" repeatS="true" repeatT="true"
+                      image="2 2 3 5921375 4605515 4605515 5921375"/>
+        <TextureTransform scale="20 20"/>
       </Appearance>
       <Box size="3 0.02 3"/>
     </Shape>
   </Transform>
 
-  <!-- Back wall receiver - Task 7-->
+  <!-- Bakvägg (Task 7–8) -->
   <Transform translation="0 0 -1.0">
     <Shape>
       <Appearance>
-      <Material diffuseColor="0.55 0.55 0.6"/>
-      <PixelTexture USE="CheckerTex"/>
-      <!-- Task 8 (texture): fewer tiles on the wall so pattern isn’t too fine -->
-      <TextureTransform scale="12 12"/>
+        <Material diffuseColor="0.55 0.55 0.6"/>
+        <PixelTexture USE="CheckerTex"/>
+        <TextureTransform scale="12 12"/>
       </Appearance>
       <Box size="3 2 0.02"/>
     </Shape>
   </Transform>
 
-  <!-- Test caster (sphere) to make the shadow shape obvious -->
+  <!-- Test-sfär (skugga) -->
   <Transform translation="0.15 0.05 0.0">
     <Shape>
       <Appearance shadow="true"><Material diffuseColor="0.9 0.2 0.2"/></Appearance>
@@ -101,228 +60,192 @@ and load libraries commonly used in the VR laboratory.
     </Shape>
   </Transform>
 
-
-  <MatrixTransform DEF="Chair"> <!-- Gemensamm Transform så vi kan manipulera stolen-->
-
-  <Transform scale="0.2 0.2 0.2">
-    <!-- Seat : Shadow true to make each part of the chair cast shadow-->
-    <Transform translation="0 0 0">
-      <Shape>
-        <Appearance shadow="true"><Material diffuseColor="0.8 1.0 0.3"/></Appearance>
-        <Box size="0.5 0.05 0.5"/>
-      </Shape>
+  <!-- Stol -->
+  <MatrixTransform DEF="Chair">
+    <Transform scale="0.2 0.2 0.2">
+      <Transform translation="0 0 0">
+        <Shape>
+          <Appearance shadow="true"><Material diffuseColor="0.8 1.0 0.3"/></Appearance>
+          <Box size="0.5 0.05 0.5"/>
+        </Shape>
+      </Transform>
+      <Transform translation="0 0.27 -0.23">
+        <Shape>
+          <Appearance shadow="true"><Material diffuseColor="0.8 0.9 0.3"/></Appearance>
+          <Box size="0.5 0.5 0.05"/>
+        </Shape>
+      </Transform>
+      <Transform translation=" 0.2 -0.25  0.2">
+        <Shape DEF="LegShape">
+          <Appearance shadow="true"><Material diffuseColor="0.4 0.3 0.2"/></Appearance>
+          <Box size="0.05 0.5 0.05"/>
+        </Shape>
+      </Transform>
+      <Transform translation="-0.2 -0.25  0.2"><Shape USE="LegShape"/></Transform>
+      <Transform translation=" 0.2 -0.25 -0.2"><Shape USE="LegShape"/></Transform>
+      <Transform translation="-0.2 -0.25 -0.2"><Shape USE="LegShape"/></Transform>
     </Transform>
-
-    <!-- Backrest -->
-    <Transform translation="0 0.27 -0.23">
-      <Shape>
-        <Appearance shadow="true"><Material diffuseColor="0.8 0.9 0.3"/></Appearance>
-        <Box size="0.5 0.5 0.05"/>
-      </Shape>
-    </Transform>
-
-    <!-- Leg 1 (defines the geometry here) -->
-    <Transform translation=" 0.2 -0.25  0.2">
-      <Shape DEF="LegShape">
-        <Appearance shadow="true"><Material diffuseColor="0.4 0.3 0.2"/></Appearance>
-        <Box size="0.05 0.5 0.05"/>
-      </Shape>
-    </Transform>
-
-    <!-- Legs 2–4 reuse the geometry -->
-    <Transform translation="-0.2 -0.25  0.2"><Shape USE="LegShape"/></Transform>
-    <Transform translation=" 0.2 -0.25 -0.2"><Shape USE="LegShape"/></Transform>
-    <Transform translation="-0.2 -0.25 -0.2"><Shape USE="LegShape"/></Transform>
-
-</Transform>
   </MatrixTransform>
 
-<!-- Navigation -->
+  <!-- Haptik/import + manuella transformskript -->
+  <IMPORT inlineDEF="H3D_EXPORTS" exportedDEF="HDEV" AS="HDEV"/>
 
-<IMPORT inlineDEF="H3D_EXPORTS" exportedDEF="HDEV" AS="HDEV"/>
+  <PythonScript DEF="MT" url="urn:candy:python/ManualTranslation.py">
+    <Transform USE="Chair" containerField="references"/>
+  </PythonScript>
 
-<PythonScript DEF="MT" url="urn:candy:python/ManualTranslation.py">
-      <Transform USE="Chair" containerField="references"/>
-    </PythonScript>
+  <PythonScript DEF="MR" url="urn:candy:python/ManualRotation.py">
+    <Transform USE="Chair" containerField="references"/>
+  </PythonScript>
 
-    <PythonScript DEF="MR" url="urn:candy:python/ManualRotation.py">
-      <Transform USE="Chair" containerField="references"/>
-    </PythonScript>
+  <PythonScript DEF="MZ" url="urn:candy:python/ManualZoom.py">
+    <Transform USE="Chair" containerField="references"/>
+  </PythonScript>
 
-<!-- ===== ADDED: MZ (du har redan ROUTEs till MZ) ===== -->
-<PythonScript DEF="MZ" url="urn:candy:python/ManualZoom.py">
-      <Transform USE="Chair" containerField="references"/>
-</PythonScript>
+  <ROUTE fromNode="HDEV" fromField="mainButton"       toNode="MT" toField="button"/>
+  <ROUTE fromNode="HDEV" fromField="trackerPosition"  toNode="MT" toField="position"/>
+  <ROUTE fromNode="HDEV" fromField="mainButton"       toNode="MR" toField="button"/>
+  <ROUTE fromNode="HDEV" fromField="trackerPosition"  toNode="MR" toField="position"/>
+  <ROUTE fromNode="HDEV" fromField="trackerOrientation" toNode="MR" toField="orientation"/>
+  <ROUTE fromNode="HDEV" fromField="mainButton"       toNode="MZ" toField="button"/>
+  <ROUTE fromNode="HDEV" fromField="trackerPosition"  toNode="MZ" toField="position"/>
+  <ROUTE fromNode="HDEV" fromField="trackerOrientation" toNode="MZ" toField="orientation"/>
 
-<ROUTE fromNode="HDEV" fromField="mainButton"
-         toNode="MT" toField="button"/>
-  <ROUTE fromNode="HDEV" fromField="trackerPosition"
-         toNode="MT" toField="position"/>
-  
-  <ROUTE fromNode="HDEV" fromField="mainButton"
-         toNode="MZ" toField="button"/>
-  <ROUTE fromNode="HDEV" fromField="trackerPosition"
-         toNode="MZ" toField="position"/>
-  <ROUTE fromNode="HDEV" fromField="trackerOrientation"
-         toNode="MZ" toField="orientation"/>
-  
-  <ROUTE fromNode="HDEV" fromField="mainButton"
-         toNode="MR" toField="button"/>
-  <ROUTE fromNode="HDEV" fromField="trackerPosition"
-         toNode="MR" toField="position"/>
-  <ROUTE fromNode="HDEV" fromField="trackerOrientation"
-         toNode="MR" toField="orientation"/>
+  <!-- ========= START: AUDIO ========= -->
 
-   <!-- ======================= -->
-  <!-- TASK 11: Spatialized sound -->
-  <!-- ======================= -->
+  <!-- En gemensam startpuls för loopande klipp (Task 12 + 13) -->
+  <TimeSensor DEF="StartOnLoad" loop="false" startTime="0"/>
 
-  <!-- Sfär: ljudkälla -->
-  <Transform translation="0.15 0.05 0.0">
-    <VRSound DEF="SND_Sphere" spatialize="true">
-      <AudioClip DEF="ClipSphere" url='"sound/ljud-bonk-1.wav"' loop="false"/>
+  <!-- ========== Task 11: Spatialized sound (touch-triggered) ========== -->
+  <Group DEF="Task11">
+    <!-- VRSound vid sfären -->
+    <Transform translation="0.15 0.05 0.0">
+      <VRSound DEF="SND_Sphere" spatialize="true">
+        <AudioClip DEF="ClipSphere" url='"sound/ljud-bonk-1.wav"' loop="false"/>
+      </VRSound>
+    </Transform>
+
+    <!-- VRSound vid stolen -->
+    <Transform translation="0 0.15 0">
+      <VRSound DEF="SND_Chair" spatialize="true">
+        <AudioClip DEF="ClipChair" url='"sound/ljud-bonk-2.wav"' loop="false"/>
+      </VRSound>
+    </Transform>
+
+    <!-- Osynliga touch-proxies (DEF på geometrin!) -->
+    <Transform translation="0.15 0.05 0.0">
+      <Shape>
+        <Appearance><Material transparency="1.0"/></Appearance>
+        <Box DEF="SphereTouchGeom" size="0.08 0.08 0.08"/>
+      </Shape>
+    </Transform>
+
+    <Transform translation="0.2 -0.25 0.2">
+      <Shape>
+        <Appearance><Material transparency="1.0"/></Appearance>
+        <Box DEF="ChairTouchGeom" size="0.06 0.5 0.06"/>
+      </Shape>
+    </Transform>
+
+    <!-- Touch -> SFBool -> filter -> tid -> startTime (sfär) -->
+    <PythonScript DEF="MFSF_A" url="urn:candy:python/MFtoSFBool.py"/>
+    <BooleanFilter DEF="BF_A"/>
+    <TimeTrigger  DEF="TT_A"/>
+
+    <ROUTE fromNode="SphereTouchGeom" fromField="isTouched" toNode="MFSF_A" toField="value"/>
+    <ROUTE fromNode="MFSF_A" fromField="value"             toNode="BF_A"   toField="set_boolean"/>
+    <ROUTE fromNode="BF_A"   fromField="inputTrue"         toNode="TT_A"   toField="set_boolean"/>
+    <ROUTE fromNode="TT_A"   fromField="triggerTime"       toNode="ClipSphere" toField="startTime"/>
+
+    <!-- Touch -> SFBool -> filter -> tid -> startTime (stol) -->
+    <PythonScript DEF="MFSF_B" url="urn:candy:python/MFtoSFBool.py"/>
+    <BooleanFilter DEF="BF_B"/>
+    <TimeTrigger  DEF="TT_B"/>
+
+    <ROUTE fromNode="ChairTouchGeom" fromField="isTouched" toNode="MFSF_B" toField="value"/>
+    <ROUTE fromNode="MFSF_B"        fromField="value"      toNode="BF_B"   toField="set_boolean"/>
+    <ROUTE fromNode="BF_B"          fromField="inputTrue"  toNode="TT_B"   toField="set_boolean"/>
+    <ROUTE fromNode="TT_B"          fromField="triggerTime" toNode="ClipChair" toField="startTime"/>
+  </Group>
+  <!-- ========== /Task 11 ========== -->
+
+  <!-- ========== Task 12: Direction test (loopar, autostart) ========== -->
+  <Group DEF="Task12">
+    <VRSound DEF="SND_Right" spatialize="true" location="1 0 0">
+      <AudioClip DEF="ClipRight" url='"sound/ljud-bonk-3.wav"' loop="true"/>
     </VRSound>
-  </Transform>
-
-  <!-- Stol: ljudkälla -->
-  <Transform translation="0 0.15 0">
-    <VRSound DEF="SND_Chair" spatialize="true">
-      <AudioClip DEF="ClipChair" url='"sound/ljud-bonk-2.wav"' loop="false"/>
+    <VRSound DEF="SND_Front" spatialize="true" location="0 0 -1">
+      <AudioClip DEF="ClipFront" url='"sound/ljud-bonk-4.wav"' loop="true"/>
     </VRSound>
-  </Transform>
+    <VRSound DEF="SND_Above" spatialize="true" location="0 1 0">
+      <AudioClip DEF="ClipAbove" url='"sound/ljud-bonk-5.wav"' loop="true"/>
+    </VRSound>
 
-  <!-- Osynliga touch-proxy geometrier -->
-  <Transform translation="0.15 0.05 0.0">
-    <Shape>
-      <Appearance><Material transparency="1.0"/></Appearance>
-      <Box DEF="SphereTouchGeom" size="0.08 0.08 0.08"/>
-    </Shape>
-  </Transform>
+    <!-- Starta vid load (gemensam puls) -->
+    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipRight" toField="startTime"/>
+    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipFront" toField="startTime"/>
+    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipAbove" toField="startTime"/>
+  </Group>
+  <!-- ========== /Task 12 ========== -->
 
-  <Transform translation="0.2 -0.25 0.2">
-    <Shape>
-      <Appearance><Material transparency="1.0"/></Appearance>
-      <Box DEF="ChairTouchGeom" size="0.06 0.5 0.06"/>
-    </Shape>
-  </Transform>
+  <!-- ========== Task 13: Environment / Reverb-presets (loopar, autostart) ========== -->
+  <Group DEF="Task13">
 
-  <!-- Trigger-kedja för sfären -->
-  <PythonScript DEF="MFSF_A" url="urn:candy:python/MFtoSFBool.py"/>
-  <BooleanFilter DEF="BF_A"/>
-  <TimeTrigger  DEF="TT_A"/>
+    <!-- Enkel “öppning” mellan liten yta och stor yta -->
+    <Transform translation="-0.6 0 -1.2">
+      <Shape>
+        <Appearance><Material diffuseColor="0.7 0.7 0.75"/></Appearance>
+        <Box size="0.6 1.6 0.05"/>
+      </Shape>
+    </Transform>
+    <Transform translation="0.6 0 -1.2">
+      <Shape>
+        <Appearance><Material diffuseColor="0.7 0.7 0.75"/></Appearance>
+        <Box size="0.6 1.6 0.05"/>
+      </Shape>
+    </Transform>
 
-  <ROUTE fromNode="SphereTouchGeom" fromField="isTouched"   toNode="MFSF_A" toField="value"/>
-  <ROUTE fromNode="MFSF_A"         fromField="value"        toNode="BF_A"   toField="set_boolean"/>
-  <ROUTE fromNode="BF_A"           fromField="inputTrue"    toNode="TT_A"   toField="set_boolean"/>
-  <ROUTE fromNode="TT_A"           fromField="triggerTime"  toNode="ClipSphere" toField="startTime"/>
+    <!-- Liten rumsdel -->
+    <Transform translation="0 0 -0.6">
+      <Shape>
+        <Appearance><Material diffuseColor="0.75 0.75 0.8"/></Appearance>
+        <Box size="2.4 0.02 1.2"/>
+      </Shape>
+    </Transform>
 
-  <!-- Trigger-kedja för stolen -->
-  <PythonScript DEF="MFSF_B" url="urn:candy:python/MFtoSFBool.py"/>
-  <BooleanFilter DEF="BF_B"/>
-  <TimeTrigger  DEF="TT_B"/>
+    <!-- Stor “katedral”-yta -->
+    <Transform translation="0 -0.01 -2.6">
+      <Shape>
+        <Appearance><Material diffuseColor="0.85 0.85 0.9"/></Appearance>
+        <Box size="5.0 0.02 6.0"/>
+      </Shape>
+    </Transform>
 
-  <ROUTE fromNode="ChairTouchGeom" fromField="isTouched"    toNode="MFSF_B" toField="value"/>
-  <ROUTE fromNode="MFSF_B"         fromField="value"        toNode="BF_B"   toField="set_boolean"/>
-  <ROUTE fromNode="BF_B"           fromField="inputTrue"    toNode="TT_B"   toField="set_boolean"/>
-  <ROUTE fromNode="TT_B"           fromField="triggerTime"  toNode="ClipChair" toField="startTime"/>
+    <!-- Liten rumsakustik -->
+    <VRSound DEF="SND_SmallRoom" spatialize="true" location="-0.8 0 -0.4">
+      <ReverbSoundEffect parametersPreset="SMALL_ROOM"/>
+      <AudioClip DEF="ClipSmallRoom" url='"sound/ljud-bonk-3.wav"' loop="true"/>
+    </VRSound>
 
-  <!-- ======================= -->
-  <!-- TASK 12: Direction test -->
-  <!-- ======================= -->
+    <!-- “Katedral” -->
+    <VRSound DEF="SND_Cathedral" spatialize="true" location="0 0 -2.5">
+      <ReverbSoundEffect parametersPreset="CHAPEL"/>
+      <AudioClip DEF="ClipCathedral" url='"sound/ljud-bonk-4.wav"' loop="true"/>
+    </VRSound>
 
-  <!-- Starta ljuden vid load -->
-  <TimeSensor DEF="InitOnce" loop="false" startTime="0"/>
+    <!-- Sidoljud i stor yta -->
+    <VRSound DEF="SND_SideRight" spatialize="true" location="2.2 0 -2.2">
+      <ReverbSoundEffect parametersPreset="HALL"/>
+      <AudioClip DEF="ClipSideRight" url='"sound/ljud-bonk-5.wav"' loop="true"/>
+    </VRSound>
 
-  <!-- Höger -->
-  <VRSound DEF="SND_Right" spatialize="true" location="1 0 0">
-    <AudioClip DEF="ClipRight" url='"sound/ljud-bonk-3.wav"' loop="true"/>
-  </VRSound>
+    <!-- Starta Task 13-klipp via samma puls -->
+    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipSmallRoom" toField="startTime"/>
+    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipCathedral" toField="startTime"/>
+    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipSideRight" toField="startTime"/>
+  </Group>
+  <!-- ========== /Task 13 ========== -->
 
-  <!-- Framför -->
-  <VRSound DEF="SND_Front" spatialize="true" location="0 0 -1">
-    <AudioClip DEF="ClipFront" url='"sound/ljud-bonk-4.wav"' loop="true"/>
-  </VRSound>
-
-  <!-- Ovanför -->
-  <VRSound DEF="SND_Above" spatialize="true" location="0 1 0">
-    <AudioClip DEF="ClipAbove" url='"sound/ljud-bonk-5.wav"' loop="true"/>
-  </VRSound>
-
-  <!-- Starta automatiskt -->
-  <ROUTE fromNode="InitOnce" fromField="cycleTime" toNode="ClipRight" toField="startTime"/>
-  <ROUTE fromNode="InitOnce" fromField="cycleTime" toNode="ClipFront" toField="startTime"/>
-  <ROUTE fromNode="InitOnce" fromField="cycleTime" toNode="ClipAbove" toField="startTime"/>
-
-     <!-- ============ TASK 13: Environment (small room + cathedral) ============ -->
-
-  <!-- Starta loopande miljöljud vid load -->
-  <TimeSensor DEF="EnvInit" loop="false" startTime="0"/>
-
-  <!--  Enkel “arkitektur”: två väggstycken med öppning i mitten  -->
-  <!-- Vägg vänster om öppningen -->
-  <Transform translation="-0.6 0 -1.2">
-    <Shape>
-      <Appearance>
-        <Material diffuseColor="0.7 0.7 0.75"/>
-      </Appearance>
-      <Box size="0.6 1.6 0.05"/>
-    </Shape>
-  </Transform>
-
-  <!-- Vägg höger om öppningen -->
-  <Transform translation="0.6 0 -1.2">
-    <Shape>
-      <Appearance>
-        <Material diffuseColor="0.7 0.7 0.75"/>
-      </Appearance>
-      <Box size="0.6 1.6 0.05"/>
-    </Shape>
-  </Transform>
-
-  <!-- Liten rumsdel (framför öppningen) -->
-  <Transform translation="0 0 -0.6">
-    <Shape>
-      <Appearance>
-        <Material diffuseColor="0.75 0.75 0.8"/>
-      </Appearance>
-      <Box size="2.4 0.02 1.2"/>
-    </Shape>
-  </Transform>
-
-  <!-- Stor “katedral”-yta (bakom öppningen) -->
-  <Transform translation="0 -0.01 -2.6">
-    <Shape>
-      <Appearance>
-        <Material diffuseColor="0.85 0.85 0.9"/>
-      </Appearance>
-      <Box size="5.0 0.02 6.0"/>
-    </Shape>
-  </Transform>
-
-  <!--  Miljöljudkällor med olika reverb-presets  -->
-
-  <!-- Liten rumsakustik nära användaren (SMALL_ROOM) -->
-  <VRSound DEF="SND_SmallRoom" spatialize="true" location="-0.8 0 -0.4">
-    <ReverbSoundEffect parametersPreset="SMALL_ROOM"/>
-    <AudioClip DEF="ClipSmallRoom" url='"sound/ljud-bonk-3.wav"' loop="true"/>
-  </VRSound>
-
-  <!-- Stor katedral-liknande akustik bortom öppningen (CHAPEL) -->
-  <VRSound DEF="SND_Cathedral" spatialize="true" location="0 0 -2.5">
-    <ReverbSoundEffect parametersPreset="CHAPEL"/>
-    <AudioClip DEF="ClipCathedral" url='"sound/ljud-bonk-4.wav"' loop="true"/>
-  </VRSound>
-
-  <!-- Bonus: Ett sidoljud långt till höger för riktningstest i “stort rum” -->
-  <VRSound DEF="SND_SideRight" spatialize="true" location="2.2 0 -2.2">
-    <ReverbSoundEffect parametersPreset="HALL"/>
-    <AudioClip DEF="ClipSideRight" url='"sound/ljud-bonk-5.wav"' loop="true"/>
-  </VRSound>
-
-  <!-- Starta alla tre miljöklipp vid load -->
-  <ROUTE fromNode="EnvInit" fromField="cycleTime" toNode="ClipSmallRoom"  toField="startTime"/>
-  <ROUTE fromNode="EnvInit" fromField="cycleTime" toNode="ClipCathedral"  toField="startTime"/>
-  <ROUTE fromNode="EnvInit" fromField="cycleTime" toNode="ClipSideRight"  toField="startTime"/>
-  <!-- ========== END TASK 13 BLOCK ========== -->
+  <!-- ========= END: AUDIO ========= -->
 
 </Group>
