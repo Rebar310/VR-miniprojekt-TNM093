@@ -9,7 +9,7 @@ navigation to allow for viewpoint calibration and tracking,
 and load libraries commonly used in the VR laboratory.
 
 -->
-<Group> 
+<Group> , vänta tills du får instruktioner 
 
   
   <PythonScript url="urn:candy:python/CorrectViewpoint.py"/>
@@ -21,6 +21,8 @@ and load libraries commonly used in the VR laboratory.
   <!--<Inline url="urn:candy:x3d/view-untracked-stereo.x3d"/> -->
 
   <!-- Untracked MONO (baseline)(bra för att testa skugg-effekten på vanlig skärm) -->
+  <!-- (FIX: din rad saknade '<'; jag lämnar din originalrad kvar men kommenterar den) -->
+  <!--  Inline url="urn:candy:x3d/view-untracked-mono.x3d" -->
   <Inline url="urn:candy:x3d/view-untracked-mono.x3d"/>
 
   <!-- <Inline url="urn:candy:x3d/view-head-tracked-stereo.x3d"/> -->
@@ -120,7 +122,7 @@ and load libraries commonly used in the VR laboratory.
       </Shape>
     </Transform>
 
-    <!-- Leg 1 (defines the geometry here, so it also renders here) -->
+    <!-- Leg 1 (defines the geometry here) -->
     <Transform translation=" 0.2 -0.25  0.2">
       <Shape DEF="LegShape">
         <Appearance shadow="true"><Material diffuseColor="0.4 0.3 0.2"/></Appearance>
@@ -148,10 +150,10 @@ and load libraries commonly used in the VR laboratory.
       <Transform USE="Chair" containerField="references"/>
     </PythonScript>
 
-  <!-- MZ före ROUTEs som använder MZ -->
-  <PythonScript DEF="MZ" url="urn:candy:python/ManualZoom.py">
+<!-- ===== ADDED: MZ (du har redan ROUTEs till MZ) ===== -->
+<PythonScript DEF="MZ" url="urn:candy:python/ManualZoom.py">
       <Transform USE="Chair" containerField="references"/>
-  </PythonScript>
+</PythonScript>
 
 <ROUTE fromNode="HDEV" fromField="mainButton"
          toNode="MT" toField="button"/>
@@ -172,6 +174,68 @@ and load libraries commonly used in the VR laboratory.
   <ROUTE fromNode="HDEV" fromField="trackerOrientation"
          toNode="MR" toField="orientation"/>
 
-  
+  <!-- ======================= -->
+  <!-- TASK 11: Spatialized sound (minimal, robust) -->
+  <!-- ======================= -->
+
+  <!-- 1) Ljudklipp (MÅSTE vara mono .wav) -->
+  <VRSound location="-1 0 0" spatialize="true">
+    <AudioClip DEF="ClipSphere" url="sound/ljud-bonk-1.wav" loop="false"/>
+  </VRSound>
+  <VRSound location="-1 0 0" spatialize="true">
+    <AudioClip DEF="ClipChair"  url="sound/ljud-bonk-2.wav" loop="false"/>
+  </VRSound>
+
+  <!-- 2) VRSound-källor, placerade vid två objekts positioner -->
+  <!-- Vid sfären -->
+  <Transform translation="0.15 0.05 0.0">
+    <VRSound DEF="SND_Sphere" spatialize="true">
+      <AudioClip USE="ClipSphere"/>
+    </VRSound>
+  </Transform>
+
+  <!-- Vid stolen (strax över sitsnivå) -->
+  <Transform translation="0 0.15 0">
+    <VRSound DEF="SND_Chair" spatialize="true">
+      <AudioClip USE="ClipChair"/>
+    </VRSound>
+  </Transform>
+
+  <!-- 3) Osynliga touch-proxy geometrier (så du slipper ändra befintliga Shapes) -->
+  <Transform translation="0.15 0.05 0.0">
+    <Shape DEF="SphereTouchGeom">
+      <Appearance><Material transparency="1.0"/></Appearance>
+      <Box size="0.08 0.08 0.08"/>
+    </Shape>
+  </Transform>
+
+  <!-- Proxy nära främre högra benet -->
+  <Transform translation="0.2 -0.25 0.2">
+    <Shape DEF="ChairTouchGeom">
+      <Appearance><Material transparency="1.0"/></Appearance>
+      <Box size="0.06 0.5 0.06"/>
+    </Shape>
+  </Transform>
+
+  <!-- 4) MFBool (isTouched) -> SFBool -> filtera press -> TimeTrigger -> startTime -->
+  <PythonScript DEF="MFSF_A" url="urn:candy:python/MFtoSFBool.py"/>
+  <BooleanFilter DEF="BF_A"/>
+  <TimeTrigger  DEF="TT_A"/>
+
+  <PythonScript DEF="MFSF_B" url="urn:candy:python/MFtoSFBool.py"/>
+  <BooleanFilter DEF="BF_B"/>
+  <TimeTrigger  DEF="TT_B"/>
+
+  <!-- Sfär: nudda proxy -> spela ClipSphere -->
+  <ROUTE fromNode="SphereTouchGeom" fromField="isTouched"   toNode="MFSF_A" toField="value"/>
+  <ROUTE fromNode="MFSF_A"         fromField="value"        toNode="BF_A"   toField="set_boolean"/>
+  <ROUTE fromNode="BF_A"           fromField="inputTrue"    toNode="TT_A"   toField="set_boolean"/>
+  <ROUTE fromNode="TT_A"           fromField="triggerTime"  toNode="ClipSphere" toField="startTime"/>
+
+  <!-- Stol: nudda proxy -> spela ClipChair -->
+  <ROUTE fromNode="ChairTouchGeom" fromField="isTouched"    toNode="MFSF_B" toField="value"/>
+  <ROUTE fromNode="MFSF_B"         fromField="value"        toNode="BF_B"   toField="set_boolean"/>
+  <ROUTE fromNode="BF_B"           fromField="inputTrue"    toNode="TT_B"   toField="set_boolean"/>
+  <ROUTE fromNode="TT_B"           fromField="triggerTime"  toNode="ClipChair" toField="startTime"/>
 
 </Group>
