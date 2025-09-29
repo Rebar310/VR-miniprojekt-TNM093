@@ -253,4 +253,76 @@ and load libraries commonly used in the VR laboratory.
   <ROUTE fromNode="InitOnce" fromField="cycleTime" toNode="ClipFront" toField="startTime"/>
   <ROUTE fromNode="InitOnce" fromField="cycleTime" toNode="ClipAbove" toField="startTime"/>
 
+     <!-- ============ TASK 13: Environment (small room + cathedral) ============ -->
+
+  <!-- Starta loopande miljöljud vid load -->
+  <TimeSensor DEF="EnvInit" loop="false" startTime="0"/>
+
+  <!--  Enkel “arkitektur”: två väggstycken med öppning i mitten  -->
+  <!-- Vägg vänster om öppningen -->
+  <Transform translation="-0.6 0 -1.2">
+    <Shape>
+      <Appearance>
+        <Material diffuseColor="0.7 0.7 0.75"/>
+      </Appearance>
+      <Box size="0.6 1.6 0.05"/>
+    </Shape>
+  </Transform>
+
+  <!-- Vägg höger om öppningen -->
+  <Transform translation="0.6 0 -1.2">
+    <Shape>
+      <Appearance>
+        <Material diffuseColor="0.7 0.7 0.75"/>
+      </Appearance>
+      <Box size="0.6 1.6 0.05"/>
+    </Shape>
+  </Transform>
+
+  <!-- Liten rumsdel (framför öppningen) -->
+  <Transform translation="0 0 -0.6">
+    <Shape>
+      <Appearance>
+        <Material diffuseColor="0.75 0.75 0.8"/>
+      </Appearance>
+      <Box size="2.4 0.02 1.2"/>
+    </Shape>
+  </Transform>
+
+  <!-- Stor “katedral”-yta (bakom öppningen) -->
+  <Transform translation="0 -0.01 -2.6">
+    <Shape>
+      <Appearance>
+        <Material diffuseColor="0.85 0.85 0.9"/>
+      </Appearance>
+      <Box size="5.0 0.02 6.0"/>
+    </Shape>
+  </Transform>
+
+  <!--  Miljöljudkällor med olika reverb-presets  -->
+
+  <!-- Liten rumsakustik nära användaren (SMALL_ROOM) -->
+  <VRSound DEF="SND_SmallRoom" spatialize="true" location="-0.8 0 -0.4">
+    <ReverbSoundEffect parametersPreset="SMALL_ROOM"/>
+    <AudioClip DEF="ClipSmallRoom" url='"sound/ljud-bonk-3.wav"' loop="true"/>
+  </VRSound>
+
+  <!-- Stor katedral-liknande akustik bortom öppningen (CHAPEL) -->
+  <VRSound DEF="SND_Cathedral" spatialize="true" location="0 0 -2.5">
+    <ReverbSoundEffect parametersPreset="CHAPEL"/>
+    <AudioClip DEF="ClipCathedral" url='"sound/ljud-bonk-4.wav"' loop="true"/>
+  </VRSound>
+
+  <!-- Bonus: Ett sidoljud långt till höger för riktningstest i “stort rum” -->
+  <VRSound DEF="SND_SideRight" spatialize="true" location="2.2 0 -2.2">
+    <ReverbSoundEffect parametersPreset="HALL"/>
+    <AudioClip DEF="ClipSideRight" url='"sound/ljud-bonk-5.wav"' loop="true"/>
+  </VRSound>
+
+  <!-- Starta alla tre miljöklipp vid load -->
+  <ROUTE fromNode="EnvInit" fromField="cycleTime" toNode="ClipSmallRoom"  toField="startTime"/>
+  <ROUTE fromNode="EnvInit" fromField="cycleTime" toNode="ClipCathedral"  toField="startTime"/>
+  <ROUTE fromNode="EnvInit" fromField="cycleTime" toNode="ClipSideRight"  toField="startTime"/>
+  <!-- ========== END TASK 13 BLOCK ========== -->
+
 </Group>
