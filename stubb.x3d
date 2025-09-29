@@ -9,7 +9,7 @@ navigation to allow for viewpoint calibration and tracking,
 and load libraries commonly used in the VR laboratory.
 
 -->
-<Group> , vänta tills du får instruktioner 
+<Group> 
 
   
   <PythonScript url="urn:candy:python/CorrectViewpoint.py"/>
@@ -21,7 +21,6 @@ and load libraries commonly used in the VR laboratory.
   <!--<Inline url="urn:candy:x3d/view-untracked-stereo.x3d"/> -->
 
   <!-- Untracked MONO (baseline)(bra för att testa skugg-effekten på vanlig skärm) -->
-  <!-- (FIX: din rad saknade '<'; jag lämnar din originalrad kvar men kommenterar den) -->
   <!--  Inline url="urn:candy:x3d/view-untracked-mono.x3d" -->
   <Inline url="urn:candy:x3d/view-untracked-mono.x3d"/>
 
@@ -201,19 +200,19 @@ and load libraries commonly used in the VR laboratory.
     </VRSound>
   </Transform>
 
-  <!-- 3) Osynliga touch-proxy geometrier (så du slipper ändra befintliga Shapes) -->
+  <!-- 3) Osynliga touch-proxy geometrier (DEF flyttad till Box) -->
   <Transform translation="0.15 0.05 0.0">
-    <Shape DEF="SphereTouchGeom">
+    <Shape>
       <Appearance><Material transparency="1.0"/></Appearance>
-      <Box size="0.08 0.08 0.08"/>
+      <Box DEF="SphereTouchGeom" size="0.08 0.08 0.08"/>
     </Shape>
   </Transform>
 
   <!-- Proxy nära främre högra benet -->
   <Transform translation="0.2 -0.25 0.2">
-    <Shape DEF="ChairTouchGeom">
+    <Shape>
       <Appearance><Material transparency="1.0"/></Appearance>
-      <Box size="0.06 0.5 0.06"/>
+      <Box DEF="ChairTouchGeom" size="0.06 0.5 0.06"/>
     </Shape>
   </Transform>
 
