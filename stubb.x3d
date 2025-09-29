@@ -247,6 +247,61 @@
   </Group>
   <!-- ========== /Task 13 ========== -->
 
+    <!-- ======================= -->
+  <!-- TASK 14: Distance cues  -->
+  <!-- ======================= -->
+  <Group DEF="Task14">
+
+    <!-- (A) Statisk A/B: nära (~0.5 m) vs långt (~6 m)
+         Lämna EN av dessa aktiv i taget när du lyssnar, annars blir det kakofoni. -->
+    <!-- Nära -->
+    <!--
+    <VRSound DEF="SND_Near" spatialize="true" location="0 0 -0.5">
+      <ReverbSoundEffect parametersPreset="CHAPEL"/>
+      <AudioClip DEF="ClipNear" url='"sound/ljud-bonk-6.wav"' loop="true"/>
+    </VRSound>
+    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipNear" toField="startTime"/>
+    -->
+
+    <!-- Långt -->
+    <!--
+    <VRSound DEF="SND_Far" spatialize="true" location="0 0 -6">
+      <ReverbSoundEffect parametersPreset="CHAPEL"/>
+      <AudioClip DEF="ClipFar" url='"sound/ljud-bonk-6.wav"' loop="true"/>
+    </VRSound>
+    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipFar" toField="startTime"/>
+    -->
+
+    <!-- (B) Rörlig källa: glider från nära (0.5 m) till långt (6 m) och tillbaka -->
+    <TimeSensor DEF="T14_Move" cycleInterval="8" loop="true"/>
+    <PositionInterpolator DEF="PI14_Z"
+      key="0 0.5 1"
+      keyValue="0 0 -0.5, 0 0 -6, 0 0 -0.5"/>
+
+    <Transform DEF="T14_Mover" translation="0 0 -0.5">
+      <VRSound DEF="SND_Move" spatialize="true">
+        <ReverbSoundEffect parametersPreset="CHAPEL"/>
+        <AudioClip DEF="ClipMove" url='"sound/ljud-bonk-6.wav"' loop="true"/>
+      </VRSound>
+    </Transform>
+
+    <!-- Start och rörelse -->
+    <ROUTE fromNode="StartOnLoad" fromField="cycleTime"  toNode="ClipMove"  toField="startTime"/>
+    <ROUTE fromNode="StartOnLoad" fromField="cycleTime"  toNode="T14_Move"  toField="startTime"/>
+    <ROUTE fromNode="T14_Move"    fromField="fraction_changed" toNode="PI14_Z"    toField="set_fraction"/>
+    <ROUTE fromNode="PI14_Z"      fromField="value_changed"    toNode="T14_Mover" toField="set_translation"/>
+
+    <!-- (C) Valfritt: "whisper i örat" – mycket nära källa.
+         Flytta denna 3–5 cm från huvudets (kamera) position. Justera X/Y om du vill lägga den “vid höger öra”. -->
+    <!--
+    <VRSound DEF="SND_Whisper" spatialize="true" location="0.03 0 0.07">
+      <ReverbSoundEffect parametersPreset="SMALL_ROOM"/>
+      <AudioClip DEF="ClipWhisper" url='"sound/ljud-bonk-7.wav"' loop="false"/>
+    </VRSound>
+    -->
+  </Group>
+
+
   <!-- ========= END: AUDIO ========= -->
 
 </Group>
