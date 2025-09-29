@@ -173,34 +173,25 @@ and load libraries commonly used in the VR laboratory.
   <ROUTE fromNode="HDEV" fromField="trackerOrientation"
          toNode="MR" toField="orientation"/>
 
-  <!-- ======================= -->
-  <!-- TASK 11: Spatialized sound (minimal, robust) -->
+   <!-- ======================= -->
+  <!-- TASK 11: Spatialized sound -->
   <!-- ======================= -->
 
-  <!-- 1) Ljudklipp (MÅSTE vara mono .wav) -->
-  <VRSound location="-1 0 0" spatialize="true">
-    <AudioClip DEF="ClipSphere" url="sound/ljud-bonk-1.wav" loop="false"/>
-  </VRSound>
-  <VRSound location="-1 0 0" spatialize="true">
-    <AudioClip DEF="ClipChair"  url="sound/ljud-bonk-2.wav" loop="false"/>
-  </VRSound>
-
-  <!-- 2) VRSound-källor, placerade vid två objekts positioner -->
-  <!-- Vid sfären -->
+  <!-- Sfär: ljudkälla -->
   <Transform translation="0.15 0.05 0.0">
     <VRSound DEF="SND_Sphere" spatialize="true">
-      <AudioClip USE="ClipSphere"/>
+      <AudioClip DEF="ClipSphere" url='"sound/ljud-bonk-1.wav"' loop="false"/>
     </VRSound>
   </Transform>
 
-  <!-- Vid stolen (strax över sitsnivå) -->
+  <!-- Stol: ljudkälla -->
   <Transform translation="0 0.15 0">
     <VRSound DEF="SND_Chair" spatialize="true">
-      <AudioClip USE="ClipChair"/>
+      <AudioClip DEF="ClipChair" url='"sound/ljud-bonk-2.wav"' loop="false"/>
     </VRSound>
   </Transform>
 
-  <!-- 3) Osynliga touch-proxy geometrier (DEF flyttad till Box) -->
+  <!-- Osynliga touch-proxy geometrier -->
   <Transform translation="0.15 0.05 0.0">
     <Shape>
       <Appearance><Material transparency="1.0"/></Appearance>
@@ -208,7 +199,6 @@ and load libraries commonly used in the VR laboratory.
     </Shape>
   </Transform>
 
-  <!-- Proxy nära främre högra benet -->
   <Transform translation="0.2 -0.25 0.2">
     <Shape>
       <Appearance><Material transparency="1.0"/></Appearance>
@@ -216,25 +206,51 @@ and load libraries commonly used in the VR laboratory.
     </Shape>
   </Transform>
 
-  <!-- 4) MFBool (isTouched) -> SFBool -> filtera press -> TimeTrigger -> startTime -->
+  <!-- Trigger-kedja för sfären -->
   <PythonScript DEF="MFSF_A" url="urn:candy:python/MFtoSFBool.py"/>
   <BooleanFilter DEF="BF_A"/>
   <TimeTrigger  DEF="TT_A"/>
 
-  <PythonScript DEF="MFSF_B" url="urn:candy:python/MFtoSFBool.py"/>
-  <BooleanFilter DEF="BF_B"/>
-  <TimeTrigger  DEF="TT_B"/>
-
-  <!-- Sfär: nudda proxy -> spela ClipSphere -->
   <ROUTE fromNode="SphereTouchGeom" fromField="isTouched"   toNode="MFSF_A" toField="value"/>
   <ROUTE fromNode="MFSF_A"         fromField="value"        toNode="BF_A"   toField="set_boolean"/>
   <ROUTE fromNode="BF_A"           fromField="inputTrue"    toNode="TT_A"   toField="set_boolean"/>
   <ROUTE fromNode="TT_A"           fromField="triggerTime"  toNode="ClipSphere" toField="startTime"/>
 
-  <!-- Stol: nudda proxy -> spela ClipChair -->
+  <!-- Trigger-kedja för stolen -->
+  <PythonScript DEF="MFSF_B" url="urn:candy:python/MFtoSFBool.py"/>
+  <BooleanFilter DEF="BF_B"/>
+  <TimeTrigger  DEF="TT_B"/>
+
   <ROUTE fromNode="ChairTouchGeom" fromField="isTouched"    toNode="MFSF_B" toField="value"/>
   <ROUTE fromNode="MFSF_B"         fromField="value"        toNode="BF_B"   toField="set_boolean"/>
   <ROUTE fromNode="BF_B"           fromField="inputTrue"    toNode="TT_B"   toField="set_boolean"/>
   <ROUTE fromNode="TT_B"           fromField="triggerTime"  toNode="ClipChair" toField="startTime"/>
+
+  <!-- ======================= -->
+  <!-- TASK 12: Direction test -->
+  <!-- ======================= -->
+
+  <!-- Starta ljuden vid load -->
+  <TimeSensor DEF="InitOnce" loop="false" startTime="0"/>
+
+  <!-- Höger -->
+  <VRSound DEF="SND_Right" spatialize="true" location="1 0 0">
+    <AudioClip DEF="ClipRight" url='"sound/ljud-bonk-3.wav"' loop="true"/>
+  </VRSound>
+
+  <!-- Framför -->
+  <VRSound DEF="SND_Front" spatialize="true" location="0 0 -1">
+    <AudioClip DEF="ClipFront" url='"sound/ljud-bonk-4.wav"' loop="true"/>
+  </VRSound>
+
+  <!-- Ovanför -->
+  <VRSound DEF="SND_Above" spatialize="true" location="0 1 0">
+    <AudioClip DEF="ClipAbove" url='"sound/ljud-bonk-5.wav"' loop="true"/>
+  </VRSound>
+
+  <!-- Starta automatiskt -->
+  <ROUTE fromNode="InitOnce" fromField="cycleTime" toNode="ClipRight" toField="startTime"/>
+  <ROUTE fromNode="InitOnce" fromField="cycleTime" toNode="ClipFront" toField="startTime"/>
+  <ROUTE fromNode="InitOnce" fromField="cycleTime" toNode="ClipAbove" toField="startTime"/>
 
 </Group>
