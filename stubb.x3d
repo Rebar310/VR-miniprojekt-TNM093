@@ -179,8 +179,12 @@ and load libraries commonly used in the VR laboratory.
   <!-- ======================= -->
 
   <!-- 1) Ljudklipp (MÅSTE vara mono .wav) -->
-  <AudioClip DEF="ClipSphere" url='"sound/ljud-bonk-1.wav"' loop="false"/>
-  <AudioClip DEF="ClipChair"  url='"sound/ljud-bonk-2.wav"' loop="false"/>
+  <VRSound location="-1 0 0" spatialize="true">
+    <AudioClip DEF="ClipSphere" url="sound/ljud-bonk-1.wav" loop="false"/>
+  </VRSound>
+  <VRSound location="-1 0 0" spatialize="true">
+    <AudioClip DEF="ClipChair"  url="sound/ljud-bonk-2.wav" loop="false"/>
+  </VRSound>
 
   <!-- 2) VRSound-källor, placerade vid två objekts positioner -->
   <!-- Vid sfären -->
