@@ -10,7 +10,6 @@ and load libraries commonly used in the VR laboratory.
 
 -->
 
-
 <Group>
 
   <!-- ========== Common setup ========== -->
@@ -22,6 +21,9 @@ and load libraries commonly used in the VR laboratory.
   <Inline url="urn:candy:x3d/view-untracked-mono.x3d"/>
   <!--  <Inline url="urn:candy:x3d/view-head-tracked-stereo.x3d"/> -->
   <!--  <Inline url="urn:candy:x3d/view-head-tracked-mono.x3d"/> -->
+
+  <!-- Visuell haptik-feedback (aktivera på skrivbord, kommentera i VR-labbet) -->
+  <Inline url="urn:candy:x3d/model_FeedbackTip.x3d"/>
 
   <!-- Navigation/headlight -->
   <NavigationInfo type='"EXAMINE" "ANY"' headlight="false"/>
@@ -39,6 +41,8 @@ and load libraries commonly used in the VR laboratory.
         <PixelTexture DEF="CheckerTex" repeatS="true" repeatT="true"
                       image="2 2 3 5921375 4605515 4605515 5921375"/>
         <TextureTransform scale="20 20"/>
+        <!-- Task 16: haptik (default) -->
+        <FrictionalSurface/>
       </Appearance>
       <Box size="3 0.02 3"/>
     </Shape>
@@ -51,6 +55,8 @@ and load libraries commonly used in the VR laboratory.
         <Material diffuseColor="0.55 0.55 0.6"/>
         <PixelTexture USE="CheckerTex"/>
         <TextureTransform scale="12 12"/>
+        <!-- Task 16: haptik (default) -->
+        <FrictionalSurface/>
       </Appearance>
       <Box size="3 2 0.02"/>
     </Shape>
@@ -59,7 +65,11 @@ and load libraries commonly used in the VR laboratory.
   <!-- Test-sfär (skugga) -->
   <Transform translation="0.15 0.05 0.0">
     <Shape>
-      <Appearance shadow="true"><Material diffuseColor="0.9 0.2 0.2"/></Appearance>
+      <Appearance shadow="true">
+        <Material diffuseColor="0.9 0.2 0.2"/>
+        <!-- Task 16: haptik (default) -->
+        <FrictionalSurface/>
+      </Appearance>
       <Sphere radius="0.05"/>
     </Shape>
   </Transform>
@@ -69,19 +79,31 @@ and load libraries commonly used in the VR laboratory.
     <Transform scale="0.2 0.2 0.2">
       <Transform translation="0 0 0">
         <Shape>
-          <Appearance shadow="true"><Material diffuseColor="0.8 1.0 0.3"/></Appearance>
+          <Appearance shadow="true">
+            <Material diffuseColor="0.8 1.0 0.3"/>
+            <!-- Task 16: haptik (default) -->
+            <FrictionalSurface/>
+          </Appearance>
           <Box size="0.5 0.05 0.5"/>
         </Shape>
       </Transform>
       <Transform translation="0 0.27 -0.23">
         <Shape>
-          <Appearance shadow="true"><Material diffuseColor="0.8 0.9 0.3"/></Appearance>
+          <Appearance shadow="true">
+            <Material diffuseColor="0.8 0.9 0.3"/>
+            <!-- Task 16: haptik (default) -->
+            <FrictionalSurface/>
+          </Appearance>
           <Box size="0.5 0.5 0.05"/>
         </Shape>
       </Transform>
       <Transform translation=" 0.2 -0.25  0.2">
         <Shape DEF="LegShape">
-          <Appearance shadow="true"><Material diffuseColor="0.4 0.3 0.2"/></Appearance>
+          <Appearance shadow="true">
+            <Material diffuseColor="0.4 0.3 0.2"/>
+            <!-- Task 16: haptik (default) -->
+            <FrictionalSurface/>
+          </Appearance>
           <Box size="0.05 0.5 0.05"/>
         </Shape>
       </Transform>
@@ -225,21 +247,19 @@ and load libraries commonly used in the VR laboratory.
       </Shape>
     </Transform>
 
-    <!-- Liten rumsakustik -->
+    <!-- Ljudkällor (presets valda för kompatibilitet) -->
     <VRSound DEF="SND_SmallRoom" spatialize="true" location="-0.8 0 -0.4">
-      <ReverbSoundEffect parametersPreset="SMALL_ROOM"/>
+      <ReverbSoundEffect parametersPreset="CHAPEL"/>
       <AudioClip DEF="ClipSmallRoom" url='"sound/ljud-bonk-3.wav"' loop="true"/>
     </VRSound>
 
-    <!-- “Katedral” -->
     <VRSound DEF="SND_Cathedral" spatialize="true" location="0 0 -2.5">
       <ReverbSoundEffect parametersPreset="CHAPEL"/>
       <AudioClip DEF="ClipCathedral" url='"sound/ljud-bonk-4.wav"' loop="true"/>
     </VRSound>
 
-    <!-- Sidoljud i stor yta -->
     <VRSound DEF="SND_SideRight" spatialize="true" location="2.2 0 -2.2">
-      <ReverbSoundEffect parametersPreset="HALL"/>
+      <ReverbSoundEffect parametersPreset="CHAPEL"/>
       <AudioClip DEF="ClipSideRight" url='"sound/ljud-bonk-5.wav"' loop="true"/>
     </VRSound>
 
@@ -250,14 +270,13 @@ and load libraries commonly used in the VR laboratory.
   </Group>
   <!-- ========== /Task 13 ========== -->
 
-    <!-- ======================= -->
+  <!-- ======================= -->
   <!-- TASK 14: Distance cues  -->
   <!-- ======================= -->
   <Group DEF="Task14">
 
-    <!-- (A) Statisk A/B: nära (~0.5 m) vs långt (~6 m)
-         Lämna EN av dessa aktiv i taget när du lyssnar, annars blir det kakofoni. -->
-    <!-- Nära -->
+    <!-- (A) Statisk A/B: nära (~0.5 m) vs långt (~6 m) -->
+    <!-- (Lämna en aktiv i taget om du vill lyssna isolerat) -->
     <!--
     <VRSound DEF="SND_Near" spatialize="true" location="0 0 -0.5">
       <ReverbSoundEffect parametersPreset="CHAPEL"/>
@@ -265,8 +284,6 @@ and load libraries commonly used in the VR laboratory.
     </VRSound>
     <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipNear" toField="startTime"/>
     -->
-
-    <!-- Långt -->
     <!--
     <VRSound DEF="SND_Far" spatialize="true" location="0 0 -6">
       <ReverbSoundEffect parametersPreset="CHAPEL"/>
@@ -275,7 +292,7 @@ and load libraries commonly used in the VR laboratory.
     <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipFar" toField="startTime"/>
     -->
 
-    <!-- (B) Rörlig källa: glider från nära (0.5 m) till långt (6 m) och tillbaka -->
+    <!-- (B) Rörlig källa -->
     <TimeSensor DEF="T14_Move" cycleInterval="8" loop="true"/>
     <PositionInterpolator DEF="PI14_Z"
       key="0 0.5 1"
@@ -294,8 +311,7 @@ and load libraries commonly used in the VR laboratory.
     <ROUTE fromNode="T14_Move"    fromField="fraction_changed" toNode="PI14_Z"    toField="set_fraction"/>
     <ROUTE fromNode="PI14_Z"      fromField="value_changed"    toNode="T14_Mover" toField="set_translation"/>
 
-    <!-- (C) Valfritt: "whisper i örat" – mycket nära källa.
-         Flytta denna 3–5 cm från huvudets (kamera) position. Justera X/Y om du vill lägga den “vid höger öra”. -->
+    <!-- (C) Valfritt: "whisper i örat" -->
     <!--
     <VRSound DEF="SND_Whisper" spatialize="true" location="0.03 0 0.07">
       <ReverbSoundEffect parametersPreset="SMALL_ROOM"/>
@@ -303,7 +319,6 @@ and load libraries commonly used in the VR laboratory.
     </VRSound>
     -->
   </Group>
-
 
   <!-- ========= END: AUDIO ========= -->
 
