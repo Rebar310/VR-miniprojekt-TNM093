@@ -41,7 +41,7 @@ and load libraries commonly used in the VR laboratory.
         <PixelTexture DEF="CheckerTex" repeatS="true" repeatT="true"
                       image="2 2 3 5921375 4605515 4605515 5921375"/>
         <TextureTransform scale="20 20"/>
-        <!-- Task 16: haptik -->
+        <!-- Haptik på golv: utan damping -->
         <FrictionalSurface useRelativeValues="false" stiffness="800"/>
       </Appearance>
       <Box size="3 0.02 3"/>
@@ -55,7 +55,7 @@ and load libraries commonly used in the VR laboratory.
         <Material diffuseColor="0.55 0.55 0.6"/>
         <PixelTexture USE="CheckerTex"/>
         <TextureTransform scale="12 12"/>
-        <!-- Task 16: haptik -->
+        <!-- Haptik på vägg: utan damping -->
         <FrictionalSurface useRelativeValues="false" stiffness="800"/>
       </Appearance>
       <Box size="3 2 0.02"/>
@@ -67,8 +67,8 @@ and load libraries commonly used in the VR laboratory.
     <Shape>
       <Appearance shadow="true">
         <Material diffuseColor="0.9 0.2 0.2"/>
-        <!-- Task 16: haptik -->
-        <FrictionalSurface useRelativeValues="false" stiffness="800"/>
+        <!-- Haptik på objekt: MED damping -->
+        <FrictionalSurface useRelativeValues="false" stiffness="800" damping="3"/>
       </Appearance>
       <Sphere radius="0.05"/>
     </Shape>
@@ -81,8 +81,8 @@ and load libraries commonly used in the VR laboratory.
         <Shape>
           <Appearance shadow="true">
             <Material diffuseColor="0.8 1.0 0.3"/>
-            <!-- Task 16: haptik -->
-            <FrictionalSurface useRelativeValues="false" stiffness="800"/>
+            <!-- Haptik på objekt: MED damping -->
+            <FrictionalSurface useRelativeValues="false" stiffness="800" damping="1"/>
           </Appearance>
           <Box size="0.5 0.05 0.5"/>
         </Shape>
@@ -91,8 +91,8 @@ and load libraries commonly used in the VR laboratory.
         <Shape>
           <Appearance shadow="true">
             <Material diffuseColor="0.8 0.9 0.3"/>
-            <!-- Task 16: haptik -->
-            <FrictionalSurface useRelativeValues="false" stiffness="800"/>
+            <!-- Haptik på objekt: MED damping -->
+            <FrictionalSurface useRelativeValues="false" stiffness="800" damping="1"/>
           </Appearance>
           <Box size="0.5 0.5 0.05"/>
         </Shape>
@@ -101,8 +101,8 @@ and load libraries commonly used in the VR laboratory.
         <Shape DEF="LegShape">
           <Appearance shadow="true">
             <Material diffuseColor="0.4 0.3 0.2"/>
-            <!-- Task 16: haptik -->
-            <FrictionalSurface useRelativeValues="false" stiffness="800"/>
+            <!-- Haptik på objekt: MED damping -->
+            <FrictionalSurface useRelativeValues="false" stiffness="800" damping="1"/>
           </Appearance>
           <Box size="0.05 0.5 0.05"/>
         </Shape>
