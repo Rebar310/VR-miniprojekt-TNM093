@@ -62,13 +62,13 @@ and load libraries commonly used in the VR laboratory.
     </Shape>
   </Transform>
 
-  <!-- Test-sfär (skugga) -->
+  <!-- Test-sfär (skugga) — Task 16/18/19 värden + Task 20: “gummi” (matt) -->
   <Transform translation="0.15 0.05 0.0">
     <Shape>
       <Appearance shadow="true">
-        <Material diffuseColor="0.9 0.2 0.2"/>
-        <!-- Haptik på objekt: MED damping + Task 19 friktion -->
-        <!-- Greppig start men halare glid: static > dynamic -->
+        <!-- Gummi-look: matt, låg specular -->
+        <Material diffuseColor="0.9 0.2 0.2" specularColor="0.05 0.05 0.05" shininess="0.1"/>
+        <!-- Haptik på objekt: MED damping + friktion -->
         <FrictionalSurface useRelativeValues="false" stiffness="800" damping="3"
                            staticFriction="1.5" dynamicFriction="0.6"/>
       </Appearance>
@@ -76,13 +76,32 @@ and load libraries commonly used in the VR laboratory.
     </Shape>
   </Transform>
 
+  <!-- ===================== -->
+  <!-- Task 20: Metall-objekt -->
+  <!-- Nytt objekt till vänster om stolen -->
+  <!-- ===================== -->
+  <Transform translation="-0.25 0.05 0.0">
+    <Shape>
+      <Appearance shadow="true">
+        <!-- Metall-look: ljus diffus, stark specular och hög glans -->
+        <Material diffuseColor="0.7 0.7 0.75" specularColor="1 1 1" shininess="0.9"/>
+        <!-- Hård och hal: hög stiffness, låg friktion -->
+        <FrictionalSurface useRelativeValues="false" stiffness="1500"
+                           staticFriction="0.3" dynamicFriction="0.2" damping="0.5"/>
+      </Appearance>
+      <Box size="0.1 0.1 0.1"/>
+    </Shape>
+  </Transform>
+  <!-- ====== /Task 20: Metall ====== -->
+
   <!-- Stol -->
   <MatrixTransform DEF="Chair">
     <Transform scale="0.2 0.2 0.2">
       <Transform translation="0 0 0">
         <Shape>
           <Appearance shadow="true">
-            <Material diffuseColor="0.8 1.0 0.3"/>
+            <!-- Task 20: “trä”-känsla: lite varmare färg + svag specular -->
+            <Material diffuseColor="0.8 1.0 0.3" specularColor="0.2 0.15 0.1" shininess="0.25"/>
             <!-- Sits: medelgrepp -->
             <FrictionalSurface useRelativeValues="false" stiffness="800" damping="1"
                                staticFriction="0.8" dynamicFriction="0.4"/>
@@ -93,7 +112,8 @@ and load libraries commonly used in the VR laboratory.
       <Transform translation="0 0.27 -0.23">
         <Shape>
           <Appearance shadow="true">
-            <Material diffuseColor="0.8 0.9 0.3"/>
+            <!-- Trä: låg glans -->
+            <Material diffuseColor="0.8 0.9 0.3" specularColor="0.15 0.12 0.08" shininess="0.2"/>
             <!-- Ryggstöd: hal känsla -->
             <FrictionalSurface useRelativeValues="false" stiffness="800" damping="1"
                                staticFriction="0.2" dynamicFriction="0.1"/>
@@ -104,7 +124,8 @@ and load libraries commonly used in the VR laboratory.
       <Transform translation=" 0.2 -0.25  0.2">
         <Shape DEF="LegShape">
           <Appearance shadow="true">
-            <Material diffuseColor="0.4 0.3 0.2"/>
+            <!-- Trä/ben: lite glans -->
+            <Material diffuseColor="0.4 0.3 0.2" specularColor="0.1 0.08 0.06" shininess="0.2"/>
             <!-- Ben: hög friktion (känns "strävt") -->
             <FrictionalSurface useRelativeValues="false" stiffness="800" damping="1"
                                staticFriction="1.8" dynamicFriction="1.2"/>
