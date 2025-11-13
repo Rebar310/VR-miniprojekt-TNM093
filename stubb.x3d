@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+  <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
 Copyright 2013, 2017, Karljohan Lundin Palmerius
@@ -18,8 +18,8 @@ and load libraries commonly used in the VR laboratory.
 
   <!-- View setup (en åt gången – varning i Windows är normal) -->
   <!--  <Inline url="urn:candy:x3d/view-untracked-stereo.x3d"/> -->
-  <Inline url="urn:candy:x3d/view-untracked-mono.x3d"/>    <!--Denna används på dator hemma-->           
-  <!--  <Inline url="urn:candy:x3d/view-head-tracked-stereo.x3d"/> --> <!--Denna används i vr-labbet (stereoskopisk vy)-->
+  <!--<Inline url="urn:candy:x3d/view-untracked-mono.x3d"/> -->   <!--Denna används på dator hemma-->           
+   <Inline url="urn:candy:x3d/view-head-tracked-stereo.x3d"/>  <!--Denna används i vr-labbet (stereoskopisk vy)-->
   <!--  <Inline url="urn:candy:x3d/view-head-tracked-mono.x3d"/> --> <!--Denna används i vr-labbet (monoskopisk vy)-->
 
   <!-- Visuell haptik-feedback (aktivera på skrivbord, kommentera i VR-labbet) -->
