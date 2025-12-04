@@ -36,7 +36,7 @@ and load libraries commonly used in the VR laboratory.
   <!-- Navigation/headlight -->
   <NavigationInfo type='"EXAMINE" "ANY"' headlight="false"/>
 
-  <!-- ================== Ljus i scenen =======================-->
+  <!-- ================== Ljus i scenen (för att vi ska kunna få skuggor )=======================-->
   <Transform translation="-0.3 0.9 0.9">
     <PointLight color="1 1 1" intensity="1.2" radius="10" attenuation="1 0.15 0.02"/>
   </Transform>
