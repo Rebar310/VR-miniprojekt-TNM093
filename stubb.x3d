@@ -70,7 +70,7 @@ and load libraries commonly used in the VR laboratory.
 
 <!-- =================== Definition för rummet===================== -->
   <!-- Mark -->
-  <Transform translation="0 -0.35 0">
+  <Transform translation="0 -0.20 0">
     <Shape>
       <Appearance>
         <Material diffuseColor="0.6 0.6 0.6"/>
@@ -80,12 +80,12 @@ and load libraries commonly used in the VR laboratory.
         <!-- Haptik på golv: utan damping -->
         <FrictionalSurface useRelativeValues="false" stiffness="800"/>
       </Appearance>
-      <Box size="3 0.02 3"/>
+      <Box size="1 0.02 1"/>
     </Shape>
   </Transform>
 
   <!-- Bakvägg -->
-  <Transform translation="0 0 -1.0">
+  <Transform translation="0 0 -0.5">
     <Shape>
       <Appearance>
         <Material diffuseColor="0.55 0.55 0.6"/>
@@ -94,7 +94,7 @@ and load libraries commonly used in the VR laboratory.
         <!-- Haptik på vägg: utan damping -->
         <FrictionalSurface useRelativeValues="false" stiffness="800"/>
       </Appearance>
-      <Box size="3 2 0.02"/>
+      <Box size="1 1 0.02"/>
     </Shape>
   </Transform>
 
@@ -115,7 +115,7 @@ and load libraries commonly used in the VR laboratory.
 
 
  <!-- ============== Definitionen för Kuben ============= -->
-  <Transform translation="-0.1 0.03 0.05">
+  <Transform translation="-0.15 0.03 0.05">
     <Shape>
       <Appearance shadow="true">
         <!-- Metall-look: ljus diffus, stark specular och hög glans -->
@@ -206,7 +206,7 @@ and load libraries commonly used in the VR laboratory.
   <ROUTE fromNode="BF" fromField="inputTrue" toNode="TT" toField="set_boolean"/>
   <ROUTE fromNode="TT" fromField="triggerTime" toNode="SOUND" toField="startTime"/>
 
-  <ROUTE fromNode="CUBE" fromField="isTouched" toNode="MFtoSFBool3" toField="value"/>
+  <ROUTE fromNode="BOX" fromField="isTouched" toNode="MFtoSFBool3" toField="value"/>
   <ROUTE fromNode="MFtoSFBool3" fromField="value" toNode="BF2" toField="set_boolean"/>
   <ROUTE fromNode="BF2" fromField="inputTrue" toNode="TT2" toField="set_boolean"/>
   <ROUTE fromNode="TT2" fromField="triggerTime" toNode="SOUND2" toField="startTime"/>
