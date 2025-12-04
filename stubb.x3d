@@ -74,9 +74,10 @@ and load libraries commonly used in the VR laboratory.
     <Shape>
       <Appearance>
         <Material diffuseColor="0.6 0.6 0.6"/>
-        <PixelTexture DEF="CheckerTex" repeatS="true" repeatT="true"
-                      image="2 2 3 5921375 4605515 4605515 5921375"/>
-        <TextureTransform scale="20 20"/>
+        <!-- <PixelTexture DEF="CheckerTex" repeatS="true" repeatT="true"
+                      image="2 2 3 5921375 4605515 4605515 5921375"/> -->
+        <ImageTexture DEF="ImageTexture" url="pexels-kasperphotography-978462.jpg" repeatS="true" repeatT="true"/>
+        <TextureTransform scale="1 1"/>
         <!-- Haptik på golv: utan damping -->
         <FrictionalSurface useRelativeValues="false" stiffness="800"/>
       </Appearance>
@@ -89,8 +90,8 @@ and load libraries commonly used in the VR laboratory.
     <Shape>
       <Appearance>
         <Material diffuseColor="0.55 0.55 0.6"/>
-        <PixelTexture USE="CheckerTex"/>
-        <TextureTransform scale="12 12"/>
+        <PixelTexture USE="ImageTexture"/>
+        <TextureTransform scale="1 1"/>
         <!-- Haptik på vägg: utan damping -->
         <FrictionalSurface useRelativeValues="false" stiffness="800"/>
       </Appearance>
@@ -119,7 +120,7 @@ and load libraries commonly used in the VR laboratory.
     <Shape>
       <Appearance shadow="true">
         <!-- Metall-look: ljus diffus, stark specular och hög glans -->
-        <Material diffuseColor="0.7 0.7 0.75" specularColor="1 1 1" shininess="0.9"/>
+        <Material diffuseColor="0.0 0.7 0.0" specularColor="1 1 1" shininess="0.9"/>
         <!-- Hård och hal: hög stiffness, låg friktion -->
         <FrictionalSurface useRelativeValues="false" stiffness="1500"
                            staticFriction="0.3" dynamicFriction="0.2" damping="0.5"/>
