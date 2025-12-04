@@ -43,6 +43,7 @@ and load libraries commonly used in the VR laboratory.
 
 
 <!-- ======== Alla ljudtester ljusteras här (ändrar presets senare) ==========-->
+<!-- presets hämtas från: https://www.itn.liu.se/~karlu20/work/H3D-docs/Candy/classHVR_1_1ReverbSoundEffect.html#ac4285014b7d3e01568d0fa7fd79000d9 -->
 
    <!-- SOUND 1 -->
   <VRSound location="0 3 0" spatialize="true">
