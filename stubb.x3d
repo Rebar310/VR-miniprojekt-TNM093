@@ -1,4 +1,4 @@
-  <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
 Copyright 2013, 2017, Karljohan Lundin Palmerius
@@ -16,24 +16,59 @@ and load libraries commonly used in the VR laboratory.
   <PythonScript url="urn:candy:python/CorrectViewpoint.py"/>
   <PythonScript url="urn:candy:python/AutoLoadSO.py"/>
 
-  <!-- View setup (en åt gången – varning i Windows är normal) -->
-  <!--  <Inline url="urn:candy:x3d/view-untracked-stereo.x3d"/> -->
-  <!--<Inline url="urn:candy:x3d/view-untracked-mono.x3d"/> -->   <!--Denna används på dator hemma-->           
-   <Inline url="urn:candy:x3d/view-head-tracked-stereo.x3d"/>  <!--Denna används i vr-labbet (stereoskopisk vy)-->
-  <!--  <Inline url="urn:candy:x3d/view-head-tracked-mono.x3d"/> --> <!--Denna används i vr-labbet (monoskopisk vy)-->
+   <!--========== Används för att få isTouched att funka =====================-->
+  <PythonScript DEF="MFtoSFBool" url="urn:candy:python/MFtoSFBool.py"/>
+  <PythonScript DEF="MFtoSFBool2" url="urn:candy:python/MFtoSFBool.py"/>
+  <PythonScript DEF="MFtoSFBool3" url="urn:candy:python/MFtoSFBool.py"/>
 
-  <!-- Visuell haptik-feedback (aktivera på skrivbord, kommentera i VR-labbet) -->
+   <!-- ========= För headtracking experiment (max en aktiv åt gången) ======= -->
+  <!--<Inline url="urn:candy:x3d/view-untracked-stereo.x3d"/> -->
+  <!--<Inline url="urn:candy:x3d/view-untracked-mono.x3d"/> -->            
+  <Inline url="urn:candy:x3d/view-head-tracked-stereo.x3d"/>  
+  <!--<Inline url="urn:candy:x3d/view-head-tracked-mono.x3d"/> -->
+
+  <!-- Ifall man använder Vr-headsetet (vilket vi tydligen inte ska)  -->
+  <!-- <IMPORT inlineDEF="H3D_EXPORTS" exportedDEF="HDEV" AS="HDEV"/> -->
+
+  <!-- Visuell haptik-feedback (aktivera på skrivbord, kommentera i VR-labbet) -->   
   <Inline url="urn:candy:x3d/model_FeedbackTip.x3d"/>
 
   <!-- Navigation/headlight -->
   <NavigationInfo type='"EXAMINE" "ANY"' headlight="false"/>
 
-  <!-- Ljus -->
+  <!-- ================== Ljus i scenen =======================-->
   <Transform translation="-0.3 0.9 0.9">
     <PointLight color="1 1 1" intensity="1.2" radius="10" attenuation="1 0.15 0.02"/>
   </Transform>
 
-  <!-- Mark (Task 7–8) -->
+
+<!-- ======== Alla ljudtester ljusteras här (ändrar presets senare) ==========-->
+
+   <!-- SOUND 1 -->
+  <VRSound location="0 3 0" spatialize="true">
+    <!-- <ReverbSoundEffect parametersPreset="SPACESTATION_LARGEROOM" /> -->
+    <AudioClip DEF="SOUND" url="./sound/ljud-bonk-1.wav" loop="false"/>
+  </VRSound>
+
+  <!-- SOUND 2 --> 
+  <VRSound location="0 -3 0" spatialize="true">
+    <!-- <ReverbSoundEffect parametersPreset="MOOD_HELL" /> -->
+    <AudioClip DEF="SOUND2" url="./sound/ljud-bonk-1.wav" loop="false"/>
+  </VRSound>
+
+  <!-- SOUND 3-->
+ <!-- <VRSound location="1 0 0" spatialize="TRUE">
+ <ReverbSoundEffect parametersPreset="ICEPALACE_HALL" />
+ <AudioClip DEF="SOUND" url="./sound/ljud-bonk-1.wav" loop="false"/>
+ </VRSound> -->
+
+  <BooleanFilter DEF="BF"/>
+  <BooleanFilter DEF="BF2"/>
+  <TimeTrigger DEF="TT"/>
+  <TimeTrigger DEF="TT2"/>
+
+<!-- =================== Definition för rummet===================== -->
+  <!-- Mark -->
   <Transform translation="0 -0.35 0">
     <Shape>
       <Appearance>
@@ -48,7 +83,7 @@ and load libraries commonly used in the VR laboratory.
     </Shape>
   </Transform>
 
-  <!-- Bakvägg (Task 7–8) -->
+  <!-- Bakvägg -->
   <Transform translation="0 0 -1.0">
     <Shape>
       <Appearance>
@@ -62,6 +97,7 @@ and load libraries commonly used in the VR laboratory.
     </Shape>
   </Transform>
 
+<!-- =================== Definition för sfären ===========================-->
   <!-- Test-sfär (skugga) — Task 16/18/19 värden + Task 20: “gummi” (matt) -->
   <Transform translation="0.15 0.05 0.0">
     <Shape>
@@ -72,15 +108,13 @@ and load libraries commonly used in the VR laboratory.
         <FrictionalSurface useRelativeValues="false" stiffness="800" damping="3"
                            staticFriction="1.5" dynamicFriction="0.6"/>
       </Appearance>
-      <Sphere radius="0.05"/>
+      <Sphere DEF="SPHERE" radius="0.05"/>
     </Shape>
   </Transform>
 
-  <!-- ===================== -->
-  <!-- Task 20: Metall-objekt -->
-  <!-- Nytt objekt till vänster om stolen -->
-  <!-- ===================== -->
-  <Transform translation="-0.25 0.05 0.0">
+
+ <!-- ============== Definitionen för Kuben ============= -->
+  <Transform translation="-0.1 0.03 0.05">
     <Shape>
       <Appearance shadow="true">
         <!-- Metall-look: ljus diffus, stark specular och hög glans -->
@@ -89,12 +123,11 @@ and load libraries commonly used in the VR laboratory.
         <FrictionalSurface useRelativeValues="false" stiffness="1500"
                            staticFriction="0.3" dynamicFriction="0.2" damping="0.5"/>
       </Appearance>
-      <Box size="0.1 0.1 0.1"/>
+      <Box DEF="BOX" size="0.1 0.1 0.1"/>
     </Shape>
   </Transform>
-  <!-- ====== /Task 20: Metall ====== -->
-
-  <!-- Stol -->
+ 
+  <!--==================== Stol =====================================-->
   <MatrixTransform DEF="Chair">
     <Transform scale="0.2 0.2 0.2">
       <Transform translation="0 0 0">
@@ -139,7 +172,7 @@ and load libraries commonly used in the VR laboratory.
     </Transform>
   </MatrixTransform>
 
-  <!-- Haptik/import + manuella transformskript -->
+  <!-- ===== Haptik/import + manuella transformskript (tillåter oss att flytta runt stolen) ==== -->
   <IMPORT inlineDEF="H3D_EXPORTS" exportedDEF="HDEV" AS="HDEV"/>
 
   <PythonScript DEF="MT" url="urn:candy:python/ManualTranslation.py">
@@ -154,6 +187,8 @@ and load libraries commonly used in the VR laboratory.
     <Transform USE="Chair" containerField="references"/>
   </PythonScript>
 
+  <!-- ======================================================================= -->
+
   <ROUTE fromNode="HDEV" fromField="mainButton"       toNode="MT" toField="button"/>
   <ROUTE fromNode="HDEV" fromField="trackerPosition"  toNode="MT" toField="position"/>
   <ROUTE fromNode="HDEV" fromField="mainButton"       toNode="MR" toField="button"/>
@@ -163,189 +198,17 @@ and load libraries commonly used in the VR laboratory.
   <ROUTE fromNode="HDEV" fromField="trackerPosition"  toNode="MZ" toField="position"/>
   <ROUTE fromNode="HDEV" fromField="trackerOrientation" toNode="MZ" toField="orientation"/>
 
-  <!-- ========= START: AUDIO ========= -->
 
-  <!-- En gemensam startpuls för loopande klipp (Task 12 + 13) -->
-  <TimeSensor DEF="StartOnLoad" loop="false" startTime="0"/>
 
-  <!-- ========== Task 11: Spatialized sound (touch-triggered) ========== -->
-  <Group DEF="Task11">
-    <!-- VRSound vid sfären -->
-    <Transform translation="0.15 0.05 0.0">
-      <VRSound DEF="SND_Sphere" spatialize="true">
-        <AudioClip DEF="ClipSphere" url='"sound/ljud-bonk-1.wav"' loop="false"/>
-      </VRSound>
-    </Transform>
+  <ROUTE fromNode="SPHERE" fromField="isTouched" toNode="MFtoSFBool2" toField="value"/>
+  <ROUTE fromNode="MFtoSFBool2" fromField="value" toNode="BF" toField="set_boolean"/>
+  <ROUTE fromNode="BF" fromField="inputTrue" toNode="TT" toField="set_boolean"/>
+  <ROUTE fromNode="TT" fromField="triggerTime" toNode="SOUND" toField="startTime"/>
 
-    <!-- VRSound vid stolen -->
-    <Transform translation="0 0.15 0">
-      <VRSound DEF="SND_Chair" spatialize="true">
-        <AudioClip DEF="ClipChair" url='"sound/ljud-bonk-2.wav"' loop="false"/>
-      </VRSound>
-    </Transform>
+  <ROUTE fromNode="CUBE" fromField="isTouched" toNode="MFtoSFBool3" toField="value"/>
+  <ROUTE fromNode="MFtoSFBool3" fromField="value" toNode="BF2" toField="set_boolean"/>
+  <ROUTE fromNode="BF2" fromField="inputTrue" toNode="TT2" toField="set_boolean"/>
+  <ROUTE fromNode="TT2" fromField="triggerTime" toNode="SOUND2" toField="startTime"/>
 
-    <!-- Osynliga touch-proxies (DEF på geometrin!) -->
-    <Transform translation="0.15 0.05 0.0">
-      <Shape>
-        <Appearance><Material transparency="1.0"/></Appearance>
-        <Box DEF="SphereTouchGeom" size="0.08 0.08 0.08"/>
-      </Shape>
-    </Transform>
-
-    <Transform translation="0.2 -0.25 0.2">
-      <Shape>
-        <Appearance><Material transparency="1.0"/></Appearance>
-        <Box DEF="ChairTouchGeom" size="0.06 0.5 0.06"/>
-      </Shape>
-    </Transform>
-
-    <!-- Touch -> SFBool -> filter -> tid -> startTime (sfär) -->
-    <PythonScript DEF="MFSF_A" url="urn:candy:python/MFtoSFBool.py"/>
-    <BooleanFilter DEF="BF_A"/>
-    <TimeTrigger  DEF="TT_A"/>
-
-    <ROUTE fromNode="SphereTouchGeom" fromField="isTouched" toNode="MFSF_A" toField="value"/>
-    <ROUTE fromNode="MFSF_A" fromField="value"             toNode="BF_A"   toField="set_boolean"/>
-    <ROUTE fromNode="BF_A"   fromField="inputTrue"         toNode="TT_A"   toField="set_boolean"/>
-    <ROUTE fromNode="TT_A"   fromField="triggerTime"       toNode="ClipSphere" toField="startTime"/>
-
-    <!-- Touch -> SFBool -> filter -> tid -> startTime (stol) -->
-    <PythonScript DEF="MFSF_B" url="urn:candy:python/MFtoSFBool.py"/>
-    <BooleanFilter DEF="BF_B"/>
-    <TimeTrigger  DEF="TT_B"/>
-
-    <ROUTE fromNode="ChairTouchGeom" fromField="isTouched" toNode="MFSF_B" toField="value"/>
-    <ROUTE fromNode="MFSF_B"        fromField="value"      toNode="BF_B"   toField="set_boolean"/>
-    <ROUTE fromNode="BF_B"          fromField="inputTrue"  toNode="TT_B"   toField="set_boolean"/>
-    <ROUTE fromNode="TT_B"          fromField="triggerTime" toNode="ClipChair" toField="startTime"/>
-  </Group>
-  <!-- ========== /Task 11 ========== -->
-
-  <!-- ========== Task 12: Direction test (loopar, autostart) ========== -->
-  <Group DEF="Task12">
-    <VRSound DEF="SND_Right" spatialize="true" location="1 0 0">
-      <AudioClip DEF="ClipRight" url='"sound/ljud-bonk-3.wav"' loop="true"/>
-    </VRSound>
-    <VRSound DEF="SND_Front" spatialize="true" location="0 0 -1">
-      <AudioClip DEF="ClipFront" url='"sound/ljud-bonk-4.wav"' loop="true"/>
-    </VRSound>
-    <VRSound DEF="SND_Above" spatialize="true" location="0 1 0">
-      <AudioClip DEF="ClipAbove" url='"sound/ljud-bonk-5.wav"' loop="true"/>
-    </VRSound>
-
-    <!-- Starta vid load (gemensam puls) -->
-    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipRight" toField="startTime"/>
-    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipFront" toField="startTime"/>
-    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipAbove" toField="startTime"/>
-  </Group>
-  <!-- ========== /Task 12 ========== -->
-
-  <!-- ========== Task 13: Environment / Reverb-presets (loopar, autostart) ========== -->
-  <Group DEF="Task13">
-
-    <!-- Enkel “öppning” mellan liten yta och stor yta -->
-    <Transform translation="-0.6 0 -1.2">
-      <Shape>
-        <Appearance><Material diffuseColor="0.7 0.7 0.75"/></Appearance>
-        <Box size="0.6 1.6 0.05"/>
-      </Shape>
-    </Transform>
-    <Transform translation="0.6 0 -1.2">
-      <Shape>
-        <Appearance><Material diffuseColor="0.7 0.7 0.75"/></Appearance>
-        <Box size="0.6 1.6 0.05"/>
-      </Shape>
-    </Transform>
-
-    <!-- Liten rumsdel -->
-    <Transform translation="0 0 -0.6">
-      <Shape>
-        <Appearance><Material diffuseColor="0.75 0.75 0.8"/></Appearance>
-        <Box size="2.4 0.02 1.2"/>
-      </Shape>
-    </Transform>
-
-    <!-- Stor “katedral”-yta -->
-    <Transform translation="0 -0.01 -2.6">
-      <Shape>
-        <Appearance><Material diffuseColor="0.85 0.85 0.9"/></Appearance>
-        <Box size="5.0 0.02 6.0"/>
-      </Shape>
-    </Transform>
-
-    <!-- Ljudkällor (presets valda för kompatibilitet) -->
-    <VRSound DEF="SND_SmallRoom" spatialize="true" location="-0.8 0 -0.4">
-      <ReverbSoundEffect parametersPreset="CHAPEL"/>
-      <AudioClip DEF="ClipSmallRoom" url='"sound/ljud-bonk-3.wav"' loop="true"/>
-    </VRSound>
-
-    <VRSound DEF="SND_Cathedral" spatialize="true" location="0 0 -2.5">
-      <ReverbSoundEffect parametersPreset="CHAPEL"/>
-      <AudioClip DEF="ClipCathedral" url='"sound/ljud-bonk-4.wav"' loop="true"/>
-    </VRSound>
-
-    <VRSound DEF="SND_SideRight" spatialize="true" location="2.2 0 -2.2">
-      <ReverbSoundEffect parametersPreset="CHAPEL"/>
-      <AudioClip DEF="ClipSideRight" url='"sound/ljud-bonk-5.wav"' loop="true"/>
-    </VRSound>
-
-    <!-- Starta Task 13-klipp via samma puls -->
-    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipSmallRoom" toField="startTime"/>
-    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipCathedral" toField="startTime"/>
-    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipSideRight" toField="startTime"/>
-  </Group>
-  <!-- ========== /Task 13 ========== -->
-
-  <!-- ======================= -->
-  <!-- TASK 14: Distance cues  -->
-  <!-- ======================= -->
-  <Group DEF="Task14">
-
-    <!-- (A) Statisk A/B: nära (~0.5 m) vs långt (~6 m) -->
-    <!-- (Lämna en aktiv i taget om du vill lyssna isolerat) -->
-    <!--
-    <VRSound DEF="SND_Near" spatialize="true" location="0 0 -0.5">
-      <ReverbSoundEffect parametersPreset="CHAPEL"/>
-      <AudioClip DEF="ClipNear" url='"sound/ljud-bonk-6.wav"' loop="true"/>
-    </VRSound>
-    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipNear" toField="startTime"/>
-    -->
-    <!--
-    <VRSound DEF="SND_Far" spatialize="true" location="0 0 -6">
-      <ReverbSoundEffect parametersPreset="CHAPEL"/>
-      <AudioClip DEF="ClipFar" url='"sound/ljud-bonk-6.wav"' loop="true"/>
-    </VRSound>
-    <ROUTE fromNode="StartOnLoad" fromField="cycleTime" toNode="ClipFar" toField="startTime"/>
-    -->
-
-    <!-- (B) Rörlig källa -->
-    <TimeSensor DEF="T14_Move" cycleInterval="8" loop="true"/>
-    <PositionInterpolator DEF="PI14_Z"
-      key="0 0.5 1"
-      keyValue="0 0 -0.5, 0 0 -6, 0 0 -0.5"/>
-
-    <Transform DEF="T14_Mover" translation="0 0 -0.5">
-      <VRSound DEF="SND_Move" spatialize="true">
-        <ReverbSoundEffect parametersPreset="CHAPEL"/>
-        <AudioClip DEF="ClipMove" url='"sound/ljud-bonk-6.wav"' loop="true"/>
-      </VRSound>
-    </Transform>
-
-    <!-- Start och rörelse -->
-    <ROUTE fromNode="StartOnLoad" fromField="cycleTime"  toNode="ClipMove"  toField="startTime"/>
-    <ROUTE fromNode="StartOnLoad" fromField="cycleTime"  toNode="T14_Move"  toField="startTime"/>
-    <ROUTE fromNode="T14_Move"    fromField="fraction_changed" toNode="PI14_Z"    toField="set_fraction"/>
-    <ROUTE fromNode="PI14_Z"      fromField="value_changed"    toNode="T14_Mover" toField="set_translation"/>
-
-    <!-- (C) Valfritt: "whisper i örat" -->
-    <!--
-    <VRSound DEF="SND_Whisper" spatialize="true" location="0.03 0 0.07">
-      <ReverbSoundEffect parametersPreset="SMALL_ROOM"/>
-      <AudioClip DEF="ClipWhisper" url='"sound/ljud-bonk-7.wav"' loop="false"/>
-    </VRSound>
-    -->
-  </Group>
-
-  <!-- ========= END: AUDIO ========= -->
 
 </Group>
