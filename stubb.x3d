@@ -28,10 +28,10 @@ and load libraries commonly used in the VR laboratory.
   <!--<Inline url="urn:candy:x3d/view-head-tracked-mono.x3d"/> -->
 
   <!-- Ifall man använder Vr-headsetet (vilket vi tydligen inte ska)  -->
-  <!-- <IMPORT inlineDEF="H3D_EXPORTS" exportedDEF="HDEV" AS="HDEV"/> -->
+   <IMPORT inlineDEF="H3D_EXPORTS" exportedDEF="HDEV" AS="HDEV"/> 
 
   <!-- Visuell haptik-feedback (aktivera på skrivbord, kommentera i VR-labbet) -->   
-  <Inline url="urn:candy:x3d/model_FeedbackTip.x3d"/>
+  <!-- <Inline url="urn:candy:x3d/model_FeedbackTip.x3d"/> -->
 
   <!-- Navigation/headlight -->
   <NavigationInfo type='"EXAMINE" "ANY"' headlight="false"/>
@@ -47,13 +47,13 @@ and load libraries commonly used in the VR laboratory.
 
    <!-- SOUND 1 -->
   <VRSound location="0 3 0" spatialize="true">
-    <!-- <ReverbSoundEffect parametersPreset="SPACESTATION_LARGEROOM" /> -->
+    <ReverbSoundEffect parametersPreset="SPACESTATION_LARGEROOM" />
     <AudioClip DEF="SOUND" url="./sound/ljud-bonk-1.wav" loop="false"/>
   </VRSound>
 
   <!-- SOUND 2 --> 
   <VRSound location="0 -3 0" spatialize="true">
-    <!-- <ReverbSoundEffect parametersPreset="MOOD_HELL" /> -->
+    <ReverbSoundEffect parametersPreset="MOOD_HELL" />
     <AudioClip DEF="SOUND2" url="./sound/ljud-bonk-1.wav" loop="false"/>
   </VRSound>
 
@@ -74,9 +74,9 @@ and load libraries commonly used in the VR laboratory.
     <Shape>
       <Appearance>
         <Material diffuseColor="0.6 0.6 0.6"/>
-        <!-- <PixelTexture DEF="CheckerTex" repeatS="true" repeatT="true"
-                      image="2 2 3 5921375 4605515 4605515 5921375"/> -->
-        <ImageTexture DEF="ImageTexture" url="pexels-kasperphotography-978462.jpg" repeatS="true" repeatT="true"/>
+        <PixelTexture DEF="CheckerTex" repeatS="true" repeatT="true"
+                      image="2 2 3 5921375 4605515 4605515 5921375"/>
+        <!-- <ImageTexture DEF="ImageTexture" url="pexels-kasperphotography-978462.jpg" repeatS="true" repeatT="true"/> -->
         <TextureTransform scale="1 1"/>
         <!-- Haptik på golv: utan damping -->
         <FrictionalSurface useRelativeValues="false" stiffness="800"/>
@@ -90,7 +90,7 @@ and load libraries commonly used in the VR laboratory.
     <Shape>
       <Appearance>
         <Material diffuseColor="0.55 0.55 0.6"/>
-        <PixelTexture USE="ImageTexture"/>
+        <PixelTexture USE="CheckerTex"/>
         <TextureTransform scale="1 1"/>
         <!-- Haptik på vägg: utan damping -->
         <FrictionalSurface useRelativeValues="false" stiffness="800"/>
