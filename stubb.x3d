@@ -22,19 +22,23 @@ and load libraries commonly used in the VR laboratory.
   <PythonScript DEF="MFtoSFBool3" url="urn:candy:python/MFtoSFBool.py"/>
 
    <!-- ========= För headtracking experiment (max en aktiv åt gången) ======= -->
-  <!--<Inline url="urn:candy:x3d/view-untracked-stereo.x3d"/> -->
-  <!--<Inline url="urn:candy:x3d/view-untracked-mono.x3d"/> -->            
-  <Inline url="urn:candy:x3d/view-head-tracked-stereo.x3d"/>  
-  <!--<Inline url="urn:candy:x3d/view-head-tracked-mono.x3d"/> -->
+  <!-- <Inline url="urn:candy:x3d/view-untracked-stereo.x3d"/> -->
+  <!-- <Inline url="urn:candy:x3d/view-untracked-mono.x3d"/>             -->
+  <!-- <Inline url="urn:candy:x3d/view-head-tracked-stereo.x3d"/>   -->
+  <!-- <Inline url="urn:candy:x3d/view-head-tracked-mono.x3d"/> -->
 
   <!-- Ifall man använder Vr-headsetet (vilket vi tydligen inte ska)  -->
    <IMPORT inlineDEF="H3D_EXPORTS" exportedDEF="HDEV" AS="HDEV"/> 
 
   <!-- Visuell haptik-feedback (aktivera på skrivbord, kommentera i VR-labbet) -->   
-  <!-- <Inline url="urn:candy:x3d/model_FeedbackTip.x3d"/> -->
+  <Inline url="urn:candy:x3d/model_FeedbackTip.x3d"/>
 
   <!-- Navigation/headlight -->
   <NavigationInfo type='"EXAMINE" "ANY"' headlight="false"/>
+
+   <!-- För att kunna se scenen när vi inte är i vr-labbet -->
+  <!-- <NavigationInfo type='"EXAMINE" "WALK" "FLY" "ANY"'/>
+  <Viewpoint position="0 0 2"/> -->
 
   <!-- ================== Ljus i scenen (för att vi ska kunna få skuggor )=======================-->
   <Transform translation="-0.3 0.9 0.9">
@@ -43,7 +47,6 @@ and load libraries commonly used in the VR laboratory.
 
 
 <!-- ======== Alla ljudtester ljusteras här (ändrar presets senare) ==========-->
-<!-- presets hämtas från: https://www.itn.liu.se/~karlu20/work/H3D-docs/Candy/classHVR_1_1ReverbSoundEffect.html#ac4285014b7d3e01568d0fa7fd79000d9 -->
 
    <!-- SOUND 1 -->
   <VRSound location="0 3 0" spatialize="true">
@@ -52,8 +55,8 @@ and load libraries commonly used in the VR laboratory.
   </VRSound>
 
   <!-- SOUND 2 --> 
-  <VRSound location="0 -3 0" spatialize="true">
-    <ReverbSoundEffect parametersPreset="MOOD_HELL" />
+  <VRSound location="0 -3 0" spatialize="TRUE">
+   <ReverbSoundEffect parametersPreset="MOOD_HELL" diffusion="0.5" decayTime="15" gain="15" /> 
     <AudioClip DEF="SOUND2" url="./sound/ljud-bonk-1.wav" loop="false"/>
   </VRSound>
 
@@ -70,14 +73,14 @@ and load libraries commonly used in the VR laboratory.
 
 <!-- =================== Definition för rummet===================== -->
   <!-- Mark -->
-  <Transform translation="0 -0.20 0">
+  <Transform translation="0 -0.15 0">
     <Shape>
       <Appearance>
         <Material diffuseColor="0.6 0.6 0.6"/>
         <PixelTexture DEF="CheckerTex" repeatS="true" repeatT="true"
                       image="2 2 3 5921375 4605515 4605515 5921375"/>
         <!-- <ImageTexture DEF="ImageTexture" url="pexels-kasperphotography-978462.jpg" repeatS="true" repeatT="true"/> -->
-        <TextureTransform scale="1 1"/>
+        <TextureTransform scale="50 50"/>
         <!-- Haptik på golv: utan damping -->
         <FrictionalSurface useRelativeValues="false" stiffness="800"/>
       </Appearance>
@@ -86,12 +89,12 @@ and load libraries commonly used in the VR laboratory.
   </Transform>
 
   <!-- Bakvägg -->
-  <Transform translation="0 0 -0.5">
+  <Transform translation="0 -0.1 -0.3">
     <Shape>
       <Appearance>
         <Material diffuseColor="0.55 0.55 0.6"/>
         <PixelTexture USE="CheckerTex"/>
-        <TextureTransform scale="1 1"/>
+        <TextureTransform scale="20 50"/>
         <!-- Haptik på vägg: utan damping -->
         <FrictionalSurface useRelativeValues="false" stiffness="800"/>
       </Appearance>
@@ -101,7 +104,7 @@ and load libraries commonly used in the VR laboratory.
 
 <!-- =================== Definition för sfären ===========================-->
   <!-- Test-sfär (skugga) — Task 16/18/19 värden + Task 20: “gummi” (matt) -->
-  <Transform translation="0.15 0.05 0.0">
+  <Transform translation="0.10 0.02 0.0">
     <Shape>
       <Appearance shadow="true">
         <!-- Gummi-look: matt, låg specular -->
@@ -116,7 +119,7 @@ and load libraries commonly used in the VR laboratory.
 
 
  <!-- ============== Definitionen för Kuben ============= -->
-  <Transform translation="-0.15 0.03 0.05">
+  <Transform translation="-0.1 0.03 0.05">
     <Shape>
       <Appearance shadow="true">
         <!-- Metall-look: ljus diffus, stark specular och hög glans -->
@@ -125,13 +128,13 @@ and load libraries commonly used in the VR laboratory.
         <FrictionalSurface useRelativeValues="false" stiffness="1500"
                            staticFriction="0.3" dynamicFriction="0.2" damping="0.5"/>
       </Appearance>
-      <Box DEF="BOX" size="0.1 0.1 0.1"/>
+      <Box DEF="BOX" size="0.05 0.05 0.05"/>
     </Shape>
   </Transform>
  
   <!--==================== Stol =====================================-->
   <MatrixTransform DEF="Chair">
-    <Transform scale="0.2 0.2 0.2">
+    <Transform scale="0.08 0.08 0.08">
       <Transform translation="0 0 0">
         <Shape>
           <Appearance shadow="true">
@@ -174,9 +177,7 @@ and load libraries commonly used in the VR laboratory.
     </Transform>
   </MatrixTransform>
 
-  <!-- ===== Haptik/import + manuella transformskript (tillåter oss att flytta runt stolen) ==== -->
-  <IMPORT inlineDEF="H3D_EXPORTS" exportedDEF="HDEV" AS="HDEV"/>
-
+  
   <PythonScript DEF="MT" url="urn:candy:python/ManualTranslation.py">
     <Transform USE="Chair" containerField="references"/>
   </PythonScript>
