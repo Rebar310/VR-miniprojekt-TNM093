@@ -60,11 +60,19 @@ and load libraries commonly used in the VR laboratory.
     <AudioClip DEF="SOUND2" url="./sound/ljud-bonk-1.wav" loop="false"/>
   </VRSound>
 
-  <!-- SOUND 3-->
+ <!-- positiv x-värde = höger sida
+ negativ x-värde = vänster sida
+ positiv y-värde = uppåt
+ negativt y-värde = nedåt
+ positivt z-värde = mot oss
+ negativt z-värde = ifrån oss -->
+
+
+  <!-- SOUND 3--> 
  <!-- <VRSound location="1 0 0" spatialize="TRUE">
  <ReverbSoundEffect parametersPreset="ICEPALACE_HALL" />
- <AudioClip DEF="SOUND" url="./sound/ljud-bonk-1.wav" loop="false"/>
- </VRSound> -->
+ <AudioClip DEF="SOUND" url="./sound/ljud-bonk-1.wav" loop="true"/>
+ </VRSound> -->  
 
   <BooleanFilter DEF="BF"/>
   <BooleanFilter DEF="BF2"/>
@@ -77,10 +85,10 @@ and load libraries commonly used in the VR laboratory.
     <Shape>
       <Appearance>
         <Material diffuseColor="0.6 0.6 0.6"/>
-        <PixelTexture DEF="CheckerTex" repeatS="true" repeatT="true"
-                      image="2 2 3 5921375 4605515 4605515 5921375"/>
-        <!-- <ImageTexture DEF="ImageTexture" url="pexels-kasperphotography-978462.jpg" repeatS="true" repeatT="true"/> -->
-        <TextureTransform scale="50 50"/>
+        <!-- <PixelTexture DEF="CheckerTex" repeatS="true" repeatT="true"
+                      image="2 2 3 5921375 4605515 4605515 5921375"/> -->
+        <ImageTexture DEF="ImageTexture" url="zCyu_a.jpg" repeatS="true" repeatT="true"/>
+        <TextureTransform scale="10 10"/>
         <!-- Haptik på golv: utan damping -->
         <FrictionalSurface useRelativeValues="false" stiffness="800"/>
       </Appearance>
@@ -90,11 +98,11 @@ and load libraries commonly used in the VR laboratory.
 
   <!-- Bakvägg -->
   <Transform translation="0 -0.1 -0.3">
-    <Shape>
+    <Shape> 
       <Appearance>
         <Material diffuseColor="0.55 0.55 0.6"/>
-        <PixelTexture USE="CheckerTex"/>
-        <TextureTransform scale="20 50"/>
+        <PixelTexture USE="ImageTexture"/>
+        <TextureTransform scale="10 10"/>
         <!-- Haptik på vägg: utan damping -->
         <FrictionalSurface useRelativeValues="false" stiffness="800"/>
       </Appearance>
